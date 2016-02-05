@@ -18,7 +18,7 @@ mongoose.connect(process.env.MONGOLAB_URI, function(err, res) {
   }
 });
 
-var demoSchema = new mongoose.schema({
+var demoSchema = new mongoose.Schema({
   name: {
     first: { type: String, required: true },
     last: { type: String, required: true }
