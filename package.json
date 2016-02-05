@@ -1,0 +1,21 @@
+{
+  "name": "mongo-demo",
+  "version": "1.0.0",
+  "description": "A demo using MongoDB",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "mongo",
+    "express",
+    "demo"
+  ],
+  "author": "Noah Scholfield",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.4.1",
+    "express": "^4.13.4",
+    "mongoose": "^4.4.1"
+  }
+}
