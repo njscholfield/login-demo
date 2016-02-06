@@ -12,9 +12,9 @@ app.get('/', function(req, res) {
 
 app.post('/', function(req, res) {
   processAllFieldsOfTheForm(req, res);
-  /*setTimeout(function() {
+  setTimeout(function() {
     res.redirect('/accounts/');
-  }, 500);*/
+  }, 500);
 });
 
 app.get('/accounts/', function(req, res) {
