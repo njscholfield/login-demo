@@ -9,7 +9,9 @@
   <body>
     <div class="container">
       <h1>MongoDB Test</h1>
-      <pre><%= data %></pre>
+      <% data.forEach(function(d) { %>
+        <pre><%= JSON.stringify(d, undefined, 2) %></pre>
+      <% }); %>
     </div>
   </body>
 </html>

@@ -11,7 +11,7 @@ app.get('/', function(req, res) {
     if(err) {
       console.log('Error finding account ' + err);
     } else {
-      res.render('index', { data: JSON.stringify(result, undefined, 2) });
+      res.render('index', { data: result });
     }
   });
 });
@@ -35,7 +35,7 @@ var accountSchema = new mongoose.Schema({
 
 var account = mongoose.model('Account', accountSchema);
 
-var noahScholfield = new account({
+/*var noahScholfield = new account({
   name: { first: 'Noah', last: 'Scholfield'},
   username: 'njscholfield',
   password: 'password'
@@ -47,7 +47,7 @@ var emilyScholfield = new account({
   username: 'erscholfield',
   password: '123456'
 });
-emilyScholfield.save(function(err) {if (err) console.log ('Error on save!')});
+emilyScholfield.save(function(err) {if (err) console.log ('Error on save!')});*/
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
