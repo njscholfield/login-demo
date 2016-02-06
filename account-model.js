@@ -12,7 +12,7 @@ var accountSchema = new mongoose.Schema({
 });
 
 accountSchema.pre('save', function(next) {
-  if (!user.isModified('password')) {
+  if (!this.isModified('password')) {
     return next();
   }
   bcrypt.hash(inputPsw, 8, function(err, hash) {
