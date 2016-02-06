@@ -12,6 +12,7 @@ app.get('/', function(req, res) {
 
 app.post('/', function(req, res) {
   var success = processAllFieldsOfTheForm(req, res);
+  console.log(success);
   if(success) {
     setTimeout(function() {
       res.redirect('/accounts/');
