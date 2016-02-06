@@ -51,13 +51,14 @@ var account = mongoose.model('Account', accountSchema);
 
 function processAllFieldsOfTheForm(req, res) {
     var form = new formidable.IncomingForm();
+    var succeeded = true;
 
     form.parse(req, function(err, fields, files) {
       if(err) {
         console.log('Error parsing form: ' + err);
       } else if(fields['inputPassword'] != fields['inputPassword2']){
         res.render('index', { data: fields, error: 'has-error', message: "Passwords do not match, try again!" });
-        return false;
+        succeeded = false;
       } else {
         var newAcct = new account({
           name: { first: fields['inputFirst'], last: fields['inputLast']},
@@ -68,7 +69,7 @@ function processAllFieldsOfTheForm(req, res) {
         newAcct.save(function(err) {if(err) console.log('Error saving account: ' + err)});
       }
     });
-    return true;
+    return succeeded;
 }
 
 app.listen(app.get('port'), function() {
