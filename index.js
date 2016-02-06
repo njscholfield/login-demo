@@ -58,6 +58,7 @@ function processAllFieldsOfTheForm(req, res) {
         console.log('Error parsing form: ' + err);
       } else if(fields['inputPassword'] != fields['inputPassword2']){
         succeeded = false;
+        console.log('Value after assignment: ' + succeeded);
         res.render('index', { data: fields, error: 'has-error', message: "Passwords do not match, try again!" });
       } else {
         var newAcct = new account({
