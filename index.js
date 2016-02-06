@@ -1,7 +1,8 @@
 var mongoose = require('mongoose');
 var express = require('express');
 var formidable = require('formidable');
-var account = require('./account-model.js');
+var bcrypt = require('bcrypt');
+var account = mongoose.model('account', accountSchema);
 var app = express();
 
 app.set('port', process.env.PORT || 4000);
@@ -32,6 +33,16 @@ mongoose.connect(process.env.MONGOLAB_URI, function(err, res) {
   }
 });
 
+var accountSchema = new mongoose.Schema({
+  name: {
+    first: { type: String, required: true },
+    last: { type: String, required: true }
+  },
+  email: { type: String, required: true, index: { unique: true } },
+  username: { type: String, required: true, index: { unique: true } },
+  password: { type: String, required: true }
+});
+
 function processAllFieldsOfTheForm(req, res) {
   var form = new formidable.IncomingForm();
 
@@ -42,6 +53,13 @@ function processAllFieldsOfTheForm(req, res) {
     } else if(fields['inputPassword'] != fields['inputPassword2']){
       res.render('index', { data: fields, error: 'has-error', message: "Passwords do not match, try again!" });
     } else {
+      bcrypt.hash(results['inputPassword'], 8, function(err, hash) {
+        if(err) {
+          console.log('Error hashing password: ' + err);
+        } else {
+          results['inputPassword'] = hash;
+        }
+      });
       var newAcct = new account({
         name: { first: fields['inputFirst'], last: fields['inputLast']},
         email: fields['inputEmail'],
