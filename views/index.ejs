@@ -10,6 +10,7 @@
     <div class="container">
       <h1>MongoDB Test</h1>
       <% data.forEach(function(d) { %>
+        <h2><%= d.username %><h2>
         <pre><%= JSON.stringify(d, undefined, 2) %></pre>
       <% }); %>
     </div>
