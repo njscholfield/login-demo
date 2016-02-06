@@ -12,9 +12,9 @@ app.get('/', function(req, res) {
 
 app.post('/', function(req, res) {
   processAllFieldsOfTheForm(req, res);
-  //setTimeout(function() {
+  /*setTimeout(function() {
     res.redirect('/accounts/');
-  //}, 500);
+  }, 500);*/
 });
 
 app.get('/accounts/', function(req, res) {
@@ -51,14 +51,14 @@ function processAllFieldsOfTheForm(req, res) {
 
     form.parse(req, function(err, fields, files) {
       if(err) {
-        console.log('Error adding account: ' + err);
+        console.log('Error parsing form: ' + err);
       } else {
         var newAcct = new account({
           name: { first: fields['inputFirst'], last: fields['inputLast']},
           username: fields['inputUsername'],
           password: fields['inputPassword']
         });
-        newAcct.save(function(err) {if(err) console.log('Error saving account')});
+        newAcct.save(function(err) {if(err) console.log('Error saving account: ' + err)});
       }
     });
 }
