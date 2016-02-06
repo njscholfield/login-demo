@@ -12,7 +12,7 @@ app.get('/', function(req, res) {
 
 app.post('/', function(req, res) {
   var success = processAllFieldsOfTheForm(req, res);
-  console.log(success);
+  console.log('Value after return: ' + success);
   if(success) {
     setTimeout(function() {
       res.redirect('/accounts/');
@@ -69,6 +69,7 @@ function processAllFieldsOfTheForm(req, res) {
         newAcct.save(function(err) {if(err) console.log('Error saving account: ' + err)});
       }
     });
+    console.log('Value before being returned: ' + succeeded);
     return succeeded;
 }
 
