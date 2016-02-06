@@ -42,6 +42,7 @@ function processAllFieldsOfTheForm(req, res) {
     } else if(fields['inputPassword'] != fields['inputPassword2']){
       res.render('index', { data: fields, error: 'has-error', message: "Passwords do not match, try again!" });
     } else {
+      fields['inputPassword'] = account.hashPassword(fields['inputPassword']);
       var newAcct = new account({
         name: { first: fields['inputFirst'], last: fields['inputLast']},
         email: fields['inputEmail'],

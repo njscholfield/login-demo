@@ -11,4 +11,14 @@ var accountSchema = new mongoose.Schema({
   password: { type: String, required: true }
 });
 
+function hashPassword(inputPsw) {
+  bcrypt.hash(inputPsw, 8, function(err, hash) {
+    if(err) {
+      console.log('Error hashing password: ' + err);
+    } else {
+      return hash;
+    }
+  });
+}
+
 module.exports = mongoose.model('account', accountSchema);
