@@ -55,7 +55,7 @@ function processAllFieldsOfTheForm(req, res) {
         username: inputUsername,
         password: inputPassword
       });
-      newAcct.save(function(err) if(err) {console.log('Error saving account')});
+      newAcct.save(function(err) {if(err) console.log('Error saving account')});
     });
 }
 
