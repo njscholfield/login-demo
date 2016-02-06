@@ -1,5 +1,5 @@
 {
-  "name": "mongo-demo",
+  "name": "login-demo",
   "version": "1.0.0",
   "description": "A demo using MongoDB",
   "main": "index.js",
