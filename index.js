@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var express = require('express');
 var formidable = require('formidable');
+var account = require('./account-model.js');
 var app = express();
 
 app.set('port', process.env.PORT || 4000);
@@ -31,22 +32,11 @@ mongoose.connect(process.env.MONGOLAB_URI, function(err, res) {
   }
 });
 
-var accountSchema = new mongoose.Schema({
-  name: {
-    first: { type: String, required: true },
-    last: { type: String, required: true }
-  },
-  email: { type: String, required: true, index: { unique: true } },
-  username: { type: String, required: true, index: { unique: true } },
-  password: { type: String, required: true }
-});
-
-var account = mongoose.model('Account', accountSchema);
-
 function processAllFieldsOfTheForm(req, res) {
   var form = new formidable.IncomingForm();
 
   form.parse(req, function(err, fields, files) {
+    //Should also implement username or email already taken warnings
     if(err) {
       console.log('Error parsing form: ' + err);
     } else if(fields['inputPassword'] != fields['inputPassword2']){
