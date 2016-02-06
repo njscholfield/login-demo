@@ -15,7 +15,7 @@ accountSchema.pre('save', function(next) {
   if (!this.isModified('password')) {
     return next();
   }
-  bcrypt.hash(inputPsw, 8, function(err, hash) {
+  bcrypt.hash(this.password, 8, function(err, hash) {
     if(err) {
       console.log('Error hashing password: ' + err);
     } else {
