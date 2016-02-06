@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>MongoDB Demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="//noahscholfield.com/css/bootstrap-yeti.min.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="jumbotron">
+        <h1>MongoDB Test</h1>
+      </div>
+      <% data.forEach(function(d) { %>
+        <h2><%= d.username %><h2>
+        <h4><%= d.name.first %> <%= d.name.last %></h4>
+        <pre><%= JSON.stringify(d, undefined, 2) %></pre>
+      <% }); %>
+    </div>
+  </body>
+</html>

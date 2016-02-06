@@ -7,11 +7,15 @@ app.set('port', process.env.PORT || 4000);
 app.set('view engine', 'ejs');
 
 app.get('/', function(req, res) {
+  res.render('index');
+});
+
+app.get('/accounts/', function(req, res) {
   account.find({}).exec(function(err, result) {
     if(err) {
       console.log('Error finding account ' + err);
     } else {
-      res.render('index', { data: result });
+      res.render('accounts', { data: result });
     }
   });
 });

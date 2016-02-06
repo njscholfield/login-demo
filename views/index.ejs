@@ -1,19 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>MongoDB Demo</title>
+    <title>Register</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="//noahscholfield.com/css/bootstrap-yeti.min.css">
   </head>
   <body>
     <div class="container">
-      <h1>MongoDB Test</h1>
-      <% data.forEach(function(d) { %>
-        <h2><%= d.username %><h2>
-        <h4><%= d.name.first %> <%= d.name.last %></h4>
-        <pre><%= JSON.stringify(d, undefined, 2) %></pre>
-      <% }); %>
+      <div class="jumbotron">
+        <h1>Register</h1>
+        <a class="btn btn-lg btn-primary" href="/accounts/">All Accounts</a>
+      </div>
+      <form action="/" method="post">
+        <legend>New Account</legend>
+        <fieldset>
+          <div class="form-group">
+            <label for="inputLast">First Name</label>
+            <input type="text" name="inputFirst" class="form-control" placeholder="First Name" required="true"></input>
+          </div>
+          <div class="form-group">
+            <label for="inputName">Last Name</label>
+            <input type="text" name="inputLast" class="form-control" placeholder="Last Name" required="true"></input>
+          </div>
+          <div class="form-group">
+            <label for="inputUsername">Username</label>
+            <input type="text" name="inputUsername" class="form-control" placeholder="username" required="true"></input>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword">Password</label>
+            <input type="password" name="inputPassword" class="form-control" placeholder="password" required="true"></input>
+          </div>
+        </fieldset>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="reset" class="btn btn-default">Clear</button>
+        </div>
+      </form>
     </div>
   </body>
 </html>
