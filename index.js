@@ -58,6 +58,7 @@ function processAllFieldsOfTheForm(req, res) {
           console.log('Error hashing password: ' + err);
         } else {
           fields['inputPassword'] = hash;
+          console.log(hash);
         }
       });
       var newAcct = new account({
