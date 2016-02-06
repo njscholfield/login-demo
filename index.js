@@ -40,6 +40,7 @@ var accountSchema = new mongoose.Schema({
     first: { type: String, required: true },
     last: { type: String, required: true }
   },
+  email: { type: String, required true, index: { unique: true } },
   username: { type: String, required: true, index: { unique: true } },
   password: { type: String, required: true }
 });
@@ -55,6 +56,7 @@ function processAllFieldsOfTheForm(req, res) {
       } else {
         var newAcct = new account({
           name: { first: fields['inputFirst'], last: fields['inputLast']},
+          email: fields['inputEmail'],
           username: fields['inputUsername'],
           password: fields['inputPassword']
         });
