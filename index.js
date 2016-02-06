@@ -57,21 +57,19 @@ function processAllFieldsOfTheForm(req, res) {
         if(err) {
           console.log('Error hashing password: ' + err);
         } else {
-          fields['inputPassword'] = hash;
-          console.log(hash);
+          var newAcct = new account({
+            name: { first: fields['inputFirst'], last: fields['inputLast']},
+            email: fields['inputEmail'],
+            username: fields['inputUsername'],
+            password: hash
+          });
+          newAcct.save(function(err) {
+            if(err) {
+              console.log('Error saving account: ' + err);
+            }
+            res.redirect('/accounts/');
+          });
         }
-      });
-      var newAcct = new account({
-        name: { first: fields['inputFirst'], last: fields['inputLast']},
-        email: fields['inputEmail'],
-        username: fields['inputUsername'],
-        password: fields['inputPassword']
-      });
-      newAcct.save(function(err) {
-        if(err) {
-          console.log('Error saving account: ' + err);
-        }
-        res.redirect('/accounts/');
       });
     }
   });
