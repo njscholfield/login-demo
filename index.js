@@ -40,7 +40,7 @@ var accountSchema = new mongoose.Schema({
     first: { type: String, required: true },
     last: { type: String, required: true }
   },
-  email: { type: String, required true, index: { unique: true } },
+  email: { type: String, required: true, index: { unique: true } },
   username: { type: String, required: true, index: { unique: true } },
   password: { type: String, required: true }
 });
