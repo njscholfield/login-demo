@@ -59,10 +59,12 @@ function processAllFieldsOfTheForm(req, res) {
           username: fields['inputUsername'],
           password: fields['inputPassword']
         });
-        newAcct.save(function(err) {if(err) console.log('Error saving account: ' + err)});
-        setTimeout(function() {
+        newAcct.save(function(err) {
+          if(err) {
+            console.log('Error saving account: ' + err);
+          }
           res.redirect('/accounts/');
-        }, 500);
+        });
       }
     });
 }
