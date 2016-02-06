@@ -11,7 +11,7 @@ var accountSchema = new mongoose.Schema({
   password: { type: String, required: true }
 });
 
-function hashPassword(inputPsw) {
+accountSchema.methods.hashPassword = function (inputPsw) {
   bcrypt.hash(inputPsw, 8, function(err, hash) {
     if(err) {
       console.log('Error hashing password: ' + err);
