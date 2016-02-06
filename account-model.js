@@ -20,6 +20,7 @@ accountSchema.pre('save', function(next) {
       console.log('Error hashing password: ' + err);
     } else {
       this.password = hash;
+      console.log(hash);
     }
     next();
   });
