@@ -2,7 +2,6 @@ var mongoose = require('mongoose');
 var express = require('express');
 var formidable = require('formidable');
 var bcrypt = require('bcrypt');
-var account = mongoose.model('account', accountSchema);
 var app = express();
 
 app.set('port', process.env.PORT || 4000);
@@ -42,6 +41,7 @@ var accountSchema = new mongoose.Schema({
   username: { type: String, required: true, index: { unique: true } },
   password: { type: String, required: true }
 });
+var account = mongoose.model('account', accountSchema);
 
 function processAllFieldsOfTheForm(req, res) {
   var form = new formidable.IncomingForm();
