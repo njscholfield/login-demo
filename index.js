@@ -50,12 +50,16 @@ function processAllFieldsOfTheForm(req, res) {
     var form = new formidable.IncomingForm();
 
     form.parse(req, function(err, fields, files) {
-      var newAcct = new account({
-        name: { first: fields['inputFirst'], last: fields['inputLast']},
-        username: fields['inputUsername'],
-        password: fields['inputPassword']
-      });
-      newAcct.save(function(err) {if(err) console.log('Error saving account')});
+      if(err) {
+        console.log('Error adding account: ' + err);
+      } else {
+        var newAcct = new account({
+          name: { first: fields['inputFirst'], last: fields['inputLast']},
+          username: fields['inputUsername'],
+          password: fields['inputPassword']
+        });
+        newAcct.save(function(err) {if(err) console.log('Error saving account')});
+      }
     });
 }
 
