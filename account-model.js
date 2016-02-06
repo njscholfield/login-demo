@@ -11,4 +11,4 @@ var accountSchema = new mongoose.Schema({
   password: { type: String, required: true }
 });
 
-module.exports = mongoose.model(account, accountSchema);
+module.exports = mongoose.model('account', accountSchema);
