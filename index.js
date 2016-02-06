@@ -7,7 +7,7 @@ app.set('port', process.env.PORT || 4000);
 app.set('view engine', 'ejs');
 
 app.get('/', function(req, res) {
-  res.render('index');
+  res.render('index', {});
 });
 
 app.post('/', function(req, res) {
