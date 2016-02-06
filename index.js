@@ -53,6 +53,8 @@ function processAllFieldsOfTheForm(req, res) {
     form.parse(req, function(err, fields, files) {
       if(err) {
         console.log('Error parsing form: ' + err);
+      } else if(fields['inputPassword'] != fields['inputPassword2']){
+        res.render('index', { data: fields, error: 'has-error', message: "Passwords do not match, try again!" });
       } else {
         var newAcct = new account({
           name: { first: fields['inputFirst'], last: fields['inputLast']},

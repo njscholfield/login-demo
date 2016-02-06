@@ -14,28 +14,34 @@
       </div>
     </div>
     <div class="container">
+      <h4 class="text-danger"><%= message %></h4>
+
       <form action="/" method="post">
         <legend>New Account</legend>
         <fieldset>
           <div class="form-group">
-            <label for="inputLast">First Name</label>
-            <input type="text" name="inputFirst" class="form-control" placeholder="John" required="true" value=<%= data %>>
+            <label for="inputFirst">First Name</label>
+            <input type="text" name="inputFirst" class="form-control" placeholder="John" required="true" value=<%= data['inputFirst'] %>>
           </div>
           <div class="form-group">
-            <label for="inputName">Last Name</label>
-            <input type="text" name="inputLast" class="form-control" placeholder="Smith" required="true">
+            <label for="inputLast">Last Name</label>
+            <input type="text" name="inputLast" class="form-control" placeholder="Smith" required="true" value=<%= data['inputLast'] %>>
           </div>
           <div class="form-group">
             <label for="inputEmail">Email Address</label>
-            <input type="email" name="inputEmail" class="form-control" placeholder="username@example.com" required="true">
+            <input type="email" name="inputEmail" class="form-control" placeholder="username@example.com" required="true" value=<%= data['inputEmail'] %>>
           </div>
           <div class="form-group">
             <label for="inputUsername">Username</label>
-            <input type="text" name="inputUsername" class="form-control" placeholder="jsmith" required="true" autocapitalize="none" autocorrect="off">
+            <input type="text" name="inputUsername" class="form-control" placeholder="jsmith" required="true" autocapitalize="none" autocorrect="off" value=<%= data['inputUsername'] %>>
           </div>
-          <div class="form-group">
+          <div class="form-group <%= error %>">
             <label for="inputPassword">Password</label>
             <input type="password" name="inputPassword" class="form-control" placeholder="not 'password' please" required="true">
+          </div>
+          <div class="form-group <%= error %>">
+            <label for="inputPassword2">Confirm Password</label>
+            <input type="password" name="inputPassword2" class="form-control" placeholder="not 'password' please" required="true">
           </div>
         </fieldset>
         <div class="form-group">
