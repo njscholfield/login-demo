@@ -11,7 +11,7 @@ app.get('/', function(req, res) {
     if(err) {
       console.log('Error finding account ' + err);
     } else {
-      res.render('index', { data: result });
+      res.render('index', { data: JSON.stringify(result) });
     }
   });
 });
