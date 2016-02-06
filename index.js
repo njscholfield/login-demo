@@ -53,11 +53,11 @@ function processAllFieldsOfTheForm(req, res) {
     } else if(fields['inputPassword'] != fields['inputPassword2']){
       res.render('index', { data: fields, error: 'has-error', message: "Passwords do not match, try again!" });
     } else {
-      bcrypt.hash(results['inputPassword'], 8, function(err, hash) {
+      bcrypt.hash(fields['inputPassword'], 8, function(err, hash) {
         if(err) {
           console.log('Error hashing password: ' + err);
         } else {
-          results['inputPassword'] = hash;
+          fields['inputPassword'] = hash;
         }
       });
       var newAcct = new account({
