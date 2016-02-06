@@ -1,7 +1,7 @@
 {
   "name": "login-demo",
   "version": "1.0.0",
-  "description": "A demo using MongoDB",
+  "description": "A demo login page using MongoDB",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
