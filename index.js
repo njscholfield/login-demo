@@ -1,13 +1,20 @@
 var mongoose = require('mongoose');
 var express = require('express');
+var formidable = require('formidable');
 var app = express();
-var data;
 
 app.set('port', process.env.PORT || 4000);
 app.set('view engine', 'ejs');
 
 app.get('/', function(req, res) {
   res.render('index');
+});
+
+app.post('/', function(req, res) {
+  processAllFieldsOfTheForm(req, res);
+  //setTimeout(function() {
+    res.redirect('/accounts/');
+  //}, 500);
 });
 
 app.get('/accounts/', function(req, res) {
@@ -39,19 +46,18 @@ var accountSchema = new mongoose.Schema({
 
 var account = mongoose.model('Account', accountSchema);
 
-/*var noahScholfield = new account({
-  name: { first: 'Noah', last: 'Scholfield'},
-  username: 'njscholfield',
-  password: 'password'
-});
-noahScholfield.save(function (err) {if (err) console.log ('Error on save!')});
+function processAllFieldsOfTheForm(req, res) {
+    var form = new formidable.IncomingForm();
 
-var emilyScholfield = new account({
-  name: { first: 'Emily', last: 'Scholfield' },
-  username: 'erscholfield',
-  password: '123456'
-});
-emilyScholfield.save(function(err) {if (err) console.log ('Error on save!')});*/
+    form.parse(req, function(err, fields, files) {
+      var newAcct = new account({
+        name: { first: fields['inputFirst'], last: fields['inputLast']},
+        username: inputUsername,
+        password: inputPassword
+      });
+      newAcct.save(function(err) if(err) {console.log('Error saving account')});
+    });
+}
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
