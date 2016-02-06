@@ -44,29 +44,28 @@ var accountSchema = new mongoose.Schema({
 var account = mongoose.model('Account', accountSchema);
 
 function processAllFieldsOfTheForm(req, res) {
-    var form = new formidable.IncomingForm();
-    var succeeded = true;
+  var form = new formidable.IncomingForm();
 
-    form.parse(req, function(err, fields, files) {
-      if(err) {
-        console.log('Error parsing form: ' + err);
-      } else if(fields['inputPassword'] != fields['inputPassword2']){
-        res.render('index', { data: fields, error: 'has-error', message: "Passwords do not match, try again!" });
-      } else {
-        var newAcct = new account({
-          name: { first: fields['inputFirst'], last: fields['inputLast']},
-          email: fields['inputEmail'],
-          username: fields['inputUsername'],
-          password: fields['inputPassword']
-        });
-        newAcct.save(function(err) {
-          if(err) {
-            console.log('Error saving account: ' + err);
-          }
-          res.redirect('/accounts/');
-        });
-      }
-    });
+  form.parse(req, function(err, fields, files) {
+    if(err) {
+      console.log('Error parsing form: ' + err);
+    } else if(fields['inputPassword'] != fields['inputPassword2']){
+      res.render('index', { data: fields, error: 'has-error', message: "Passwords do not match, try again!" });
+    } else {
+      var newAcct = new account({
+        name: { first: fields['inputFirst'], last: fields['inputLast']},
+        email: fields['inputEmail'],
+        username: fields['inputUsername'],
+        password: fields['inputPassword']
+      });
+      newAcct.save(function(err) {
+        if(err) {
+          console.log('Error saving account: ' + err);
+        }
+        res.redirect('/accounts/');
+      });
+    }
+  });
 }
 
 app.listen(app.get('port'), function() {
