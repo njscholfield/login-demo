@@ -11,13 +11,7 @@ app.get('/', function(req, res) {
 });
 
 app.post('/', function(req, res) {
-  var success = processAllFieldsOfTheForm(req, res);
-  console.log('Value after return: ' + success);
-  if(success) {
-    setTimeout(function() {
-      res.redirect('/accounts/');
-    }, 500);
-  }
+  processAllFieldsOfTheForm(req, res);
 });
 
 app.get('/accounts/', function(req, res) {
@@ -53,12 +47,10 @@ function processAllFieldsOfTheForm(req, res) {
     var form = new formidable.IncomingForm();
     var succeeded = true;
 
-    form.parse(req, function(err, fields, files, succeeded) {
+    form.parse(req, function(err, fields, files) {
       if(err) {
         console.log('Error parsing form: ' + err);
       } else if(fields['inputPassword'] != fields['inputPassword2']){
-        succeeded(false);
-        console.log('Value after assignment: ' + succeeded);
         res.render('index', { data: fields, error: 'has-error', message: "Passwords do not match, try again!" });
       } else {
         var newAcct = new account({
@@ -68,10 +60,11 @@ function processAllFieldsOfTheForm(req, res) {
           password: fields['inputPassword']
         });
         newAcct.save(function(err) {if(err) console.log('Error saving account: ' + err)});
+        setTimeout(function() {
+          res.redirect('/accounts/');
+        }, 500);
       }
     });
-    console.log('Value before being returned: ' + succeeded);
-    return succeeded;
 }
 
 app.listen(app.get('port'), function() {
