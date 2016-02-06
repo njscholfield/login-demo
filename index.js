@@ -11,19 +11,20 @@ app.get('/', function(req, res) {
 });
 
 app.post('/', function(req, res) {
-  processAllFieldsOfTheForm(req, res);
-  setTimeout(function() {
-    res.redirect('/accounts/');
-  }, 500);
+  var success = processAllFieldsOfTheForm(req, res);
+  if(success) {
+    setTimeout(function() {
+      res.redirect('/accounts/');
+    }, 500);
+  }
 });
 
 app.get('/accounts/', function(req, res) {
   account.find({}).exec(function(err, result) {
     if(err) {
       console.log('Error finding account ' + err);
-    } else {
-      res.render('accounts', { data: result });
     }
+      res.render('accounts', { data: result });
   });
 });
 
@@ -55,6 +56,7 @@ function processAllFieldsOfTheForm(req, res) {
         console.log('Error parsing form: ' + err);
       } else if(fields['inputPassword'] != fields['inputPassword2']){
         res.render('index', { data: fields, error: 'has-error', message: "Passwords do not match, try again!" });
+        return false;
       } else {
         var newAcct = new account({
           name: { first: fields['inputFirst'], last: fields['inputLast']},
@@ -65,6 +67,7 @@ function processAllFieldsOfTheForm(req, res) {
         newAcct.save(function(err) {if(err) console.log('Error saving account: ' + err)});
       }
     });
+    return true;
 }
 
 app.listen(app.get('port'), function() {
