@@ -11,7 +11,7 @@ var accountSchema = new mongoose.Schema({
   password: { type: String, required: true }
 });
 
-accountSchema.pre(save, function(next) {
+accountSchema.pre('save', function(next) {
   if (!user.isModified('password')) {
     return next();
   }
