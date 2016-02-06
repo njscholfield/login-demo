@@ -40,8 +40,14 @@ var noahScholfield = new account({
   username: 'njscholfield',
   password: 'password'
 });
-
 noahScholfield.save(function (err) {if (err) console.log ('Error on save!')});
+
+var emilyScholfield = new account({
+  name: { first: 'Emily', last: 'Scholfield' },
+  username: 'erscholfield',
+  password: '123456'
+});
+emilyScholfield.save(function(err) {if (err) console.log ('Error on save!')});
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
