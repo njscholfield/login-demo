@@ -53,7 +53,7 @@ function processAllFieldsOfTheForm(req, res) {
     var form = new formidable.IncomingForm();
     var succeeded = true;
 
-    form.parse(req, function(err, fields, files) {
+    form.parse(req, function(err, fields, files, succeeded) {
       if(err) {
         console.log('Error parsing form: ' + err);
       } else if(fields['inputPassword'] != fields['inputPassword2']){
