@@ -7,7 +7,7 @@ app.set('port', process.env.PORT || 4000);
 app.set('view engine', 'ejs');
 
 app.get('/', function(req, res) {
-  res.render('index');
+  res.render('index', { data: 'babies'});
 });
 
 app.post('/', function(req, res) {
@@ -31,7 +31,7 @@ mongoose.connect(process.env.MONGOLAB_URI, function(err, res) {
   if(err) {
     console.log('ERROR connecting to: ' + process.env.MONGOLAB_URI + '. ' + err);
   } else {
-    console.log ('Succeeded connected to: ' + process.env.MONGOLAB_URI);
+    console.log ('Succeeded, connected to: ' + process.env.MONGOLAB_URI);
   }
 });
 
