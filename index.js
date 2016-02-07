@@ -97,10 +97,15 @@ function loginAttempt(req, res) {
         console.log('result TF = ' + result == true);
         console.log("result['password'] = " + result['password']);
         console.log("result.documents['password'] = " + result.documents['password']);
+        var password;
+        result.forEach(obj, function() {
+          password = obj.password;
+          console.log('obj.password = ' + password);
+        })
         if(err || !result) {
           res.render('/login/', { message: 'Username not found, try again!', error: { username: 'has-error'} });
         } else {
-          bcrypt.compare(fields['loginPassword'], result['password'], function(err, isMatch) {
+          bcrypt.compare(fields['loginPassword'], password, function(err, isMatch) {
             if(err) {
               console.log('Error checking password: ' + err);
             } else {
