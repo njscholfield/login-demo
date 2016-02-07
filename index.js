@@ -87,10 +87,15 @@ function loginAttempt(req, res) {
   var form = formidable.IncomingForm();
 
   form.parse(req, function(err, fields, files) {
+    console.log("fields['loginUsername'] = " + fields['loginUsername']);
+    console.log("fields['loginPassword'] = " + fields['loginPassword']);
     if(err) {
       console.log('Error parsing form: ' + err);
     } else {
       account.find({'username': fields['loginUsername']}).exec(function(err, result) {
+        console.log('result = ' + result);
+        console.log('result TF = ' + result == true);
+        console.log("result['password'] = " + result['password']);
         if(err || !result) {
           res.render('/login/', { message: 'Username not found, try again!', error: { username: 'has-error'} });
         } else {
