@@ -96,7 +96,6 @@ function loginAttempt(req, res) {
         console.log('result = ' + result);
         console.log('result TF = ' + result == true);
         console.log("result['password'] = " + result['password']);
-        console.log("result.documents['password'] = " + result.documents['password']);
         var password;
         result.forEach(obj, function() {
           password = obj.password;
