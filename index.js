@@ -91,14 +91,13 @@ function loginAttempt(req, res) {
       console.log('Error parsing form: ' + err);
     } else {
       account.find({'username': fields['loginUsername']}).exec(function(err, result) {
-        var password;
         result.forEach(function(obj) {
-          password = obj.password;
+          result = obj;
         });
         if(err || !result) {
           res.render('/login/', { message: 'Username not found, try again!', error: { 'username': 'has-error'} });
         } else {
-          bcrypt.compare(fields['loginPassword'], password, function(err, isMatch) {
+          bcrypt.compare(fields['loginPassword'], result.password, function(err, isMatch) {
             if(err) {
               console.log('Error checking password: ' + err);
             } else {
