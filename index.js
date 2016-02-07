@@ -95,7 +95,7 @@ function loginAttempt(req, res) {
         result.forEach(function(obj) {
           password = obj.password;
         });
-        if(err || result.count() == 0) {
+        if(err || result.size() == 0) {
           res.render('/login/', { message: 'Username not found, try again!', error: { 'username': 'has-error'} });
         } else {
           bcrypt.compare(fields['loginPassword'], password, function(err, isMatch) {
