@@ -96,7 +96,7 @@ function loginAttempt(req, res) {
         console.log('result = ' + result);
         console.log('result TF = ' + result == true);
         console.log("result['password'] = " + result['password']);
-        console.log('result.password = ' + result.password);
+        console.log('result.documents.password = ' + result.documents.password);
         if(err || !result) {
           res.render('/login/', { message: 'Username not found, try again!', error: { username: 'has-error'} });
         } else {
