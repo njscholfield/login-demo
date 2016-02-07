@@ -2,14 +2,14 @@ var mongoose = require('mongoose');
 var express = require('express');
 var formidable = require('formidable');
 var bcrypt = require('bcrypt');
-var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var app = express();
 
 app.set('port', process.env.PORT || 4000);
 app.set('view engine', 'ejs');
-app.use(cookieParser());
-app.use(session({secret: '1234567890QWERTY'}));
+app.use(session({secret: '1234567890QWERTY', resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }}));
 
 app.get('/', function(req, res) {
   res.render('register', { data: '', error: '', message: '' });
@@ -24,7 +24,7 @@ app.get('/accounts/', function(req, res) {
     if(err) {
       console.log('Error finding account ' + err);
     }
-      res.render('accounts', { data: result });
+      res.render('accounts', { data: result, username: req.session.username });
   });
 });
 
