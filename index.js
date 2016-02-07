@@ -87,22 +87,16 @@ function loginAttempt(req, res) {
   var form = formidable.IncomingForm();
 
   form.parse(req, function(err, fields, files) {
-    console.log("fields['loginUsername'] = " + fields['loginUsername']);
-    console.log("fields['loginPassword'] = " + fields['loginPassword']);
     if(err) {
       console.log('Error parsing form: ' + err);
     } else {
       account.find({'username': fields['loginUsername']}).exec(function(err, result) {
-        console.log('result = ' + result);
-        console.log('result TF = ' + result == true);
-        console.log("result['password'] = " + result['password']);
         var password;
         result.forEach(function(obj) {
           password = obj.password;
-          console.log('obj.password = ' + password);
-        })
+        });
         if(err || !result) {
-          res.render('/login/', { message: 'Username not found, try again!', error: { username: 'has-error'} });
+          res.render('/login/', { message: 'Username not found, try again!', error: { 'username': 'has-error'} });
         } else {
           bcrypt.compare(fields['loginPassword'], password, function(err, isMatch) {
             if(err) {
@@ -111,7 +105,7 @@ function loginAttempt(req, res) {
               if(isMatch) {
                 res.redirect('/accounts/');
               } else {
-                res.render('login', { message: 'Incorrect password, try again!', error: { password: 'has-error'} });
+                res.render('login', { message: 'Incorrect password, try again!', error: { 'password': 'has-error'} });
               }
             }
           });
