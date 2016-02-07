@@ -8,11 +8,11 @@ app.set('port', process.env.PORT || 4000);
 app.set('view engine', 'ejs');
 
 app.get('/', function(req, res) {
-  res.render('index', { data: '', error: '', message: '' });
+  res.render('register', { data: '', error: '', message: '' });
 });
 
 app.post('/', function(req, res) {
-  processAllFieldsOfTheForm(req, res);
+  registerNewAccount(req, res);
 });
 
 app.get('/accounts/', function(req, res) {
@@ -22,6 +22,14 @@ app.get('/accounts/', function(req, res) {
     }
       res.render('accounts', { data: result });
   });
+});
+
+app.get('/login/', function(req, res) {
+  res.render('login', { message: '', error ''});
+});
+
+app.post('/login/', function(req, res) {
+  loginAttempt(req, res);
 });
 
 mongoose.connect(process.env.MONGOLAB_URI, function(err, res) {
@@ -43,7 +51,7 @@ var accountSchema = new mongoose.Schema({
 });
 var account = mongoose.model('account', accountSchema);
 
-function processAllFieldsOfTheForm(req, res) {
+function registerNewAccount(req, res) {
   var form = new formidable.IncomingForm();
 
   form.parse(req, function(err, fields, files) {
@@ -68,6 +76,34 @@ function processAllFieldsOfTheForm(req, res) {
               console.log('Error saving account: ' + err);
             }
             res.redirect('/accounts/');
+          });
+        }
+      });
+    }
+  });
+}
+
+function loginAttempt(req, res) {
+  var form = formidable.IncomingForm();
+
+  form.parse(req, function(err, fields, files) {
+    if(err) {
+      console.log('Error parsing form: ' + err);
+    } else {
+      account.find({'username': fields['username']}).exec(function(err, result) {
+        if(err) {
+          res.render('/login', { message: 'Username not found, try again!', error{ 'username': 'has-error'} });
+        } else {
+          bcrypt.compare(fields['password'], result['password'], function(err, isMatch) {
+            if(err) {
+              console.log('Error checking password: ' + err);
+            } else {
+              if(isMatch) {
+                res.redirect('/accounts/');
+              } else {
+                res.render('login', { message: 'Incorrect password, try again!', error: { 'password': 'has-error'} });
+              }
+            }
           });
         }
       });
