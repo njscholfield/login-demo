@@ -92,7 +92,7 @@ function loginAttempt(req, res) {
     } else {
       account.find({'username': fields['loginUsername']}).exec(function(err, result) {
         result.forEach(function(obj) {
-          if(err || !obj) {
+          if(err || result.count() == 0) {
             res.render('/login/', { message: 'Username not found, try again!', error: { 'username': 'has-error'} });
           } else {
             bcrypt.compare(fields['loginPassword'], obj.password, function(err, isMatch) {
