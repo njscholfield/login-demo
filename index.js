@@ -91,23 +91,25 @@ function loginAttempt(req, res) {
       console.log('Error parsing form: ' + err);
     } else {
       account.find({'username': fields['loginUsername']}).exec(function(err, result) {
+        var password;
         result.forEach(function(obj) {
-          if(err || result.count() == 0) {
-            res.render('/login/', { message: 'Username not found, try again!', error: { 'username': 'has-error'} });
-          } else {
-            bcrypt.compare(fields['loginPassword'], obj.password, function(err, isMatch) {
-              if(err) {
-                console.log('Error checking password: ' + err);
-              } else {
-                if(isMatch) {
-                  res.redirect('/accounts/');
-                } else {
-                  res.render('login', { message: 'Incorrect password, try again!', error: { 'password': 'has-error'} });
-                }
-              }
-            });
-          }
+          password = obj.password;
         });
+        if(err || result.count() == 0) {
+          res.render('/login/', { message: 'Username not found, try again!', error: { 'username': 'has-error'} });
+        } else {
+          bcrypt.compare(fields['loginPassword'], password, function(err, isMatch) {
+            if(err) {
+              console.log('Error checking password: ' + err);
+            } else {
+              if(isMatch) {
+                res.redirect('/accounts/');
+              } else {
+                res.render('login', { message: 'Incorrect password, try again!', error: { 'password': 'has-error'} });
+              }
+            }
+          });
+        }
       });
     }
   });
