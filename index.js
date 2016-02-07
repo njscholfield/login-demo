@@ -91,8 +91,7 @@ function loginAttempt(req, res) {
       console.log('Error parsing form: ' + err);
     } else {
       account.find({'username': fields['loginUsername']}).exec(function(err, result) {
-        console.log('Result = ' + result);
-        if(err) {
+        if(err || result == {}) {
           res.render('/login/', { message: 'Username not found, try again!', error: { username: 'has-error'} });
         } else {
           bcrypt.compare(fields['loginPassword'], result['password'], function(err, isMatch) {
