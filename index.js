@@ -92,24 +92,22 @@ function loginAttempt(req, res) {
     } else {
       account.find({'username': fields['loginUsername']}).exec(function(err, result) {
         result.forEach(function(obj) {
-          result = obj;
-          console.log('Result = ' + result);
-        });
-        if(err || !result) {
-          res.render('/login/', { message: 'Username not found, try again!', error: { 'username': 'has-error'} });
-        } else {
-          bcrypt.compare(fields['loginPassword'], result.password, function(err, isMatch) {
-            if(err) {
-              console.log('Error checking password: ' + err);
-            } else {
-              if(isMatch) {
-                res.redirect('/accounts/');
+          if(err || !obj) {
+            res.render('/login/', { message: 'Username not found, try again!', error: { 'username': 'has-error'} });
+          } else {
+            bcrypt.compare(fields['loginPassword'], obj.password, function(err, isMatch) {
+              if(err) {
+                console.log('Error checking password: ' + err);
               } else {
-                res.render('login', { message: 'Incorrect password, try again!', error: { 'password': 'has-error'} });
+                if(isMatch) {
+                  res.redirect('/accounts/');
+                } else {
+                  res.render('login', { message: 'Incorrect password, try again!', error: { 'password': 'has-error'} });
+                }
               }
-            }
-          });
-        }
+            });
+          }
+        });
       });
     }
   });
