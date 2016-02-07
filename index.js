@@ -91,6 +91,7 @@ function loginAttempt(req, res) {
       console.log('Error parsing form: ' + err);
     } else {
       account.find({'username': fields['username']}).exec(function(err, result) {
+        console.log('Result = ' + result);
         if(err) {
           res.render('/login/', { message: 'Username not found, try again!', error: { username: 'has-error'} });
         } else {
