@@ -90,6 +90,8 @@ function loginAttempt(req, res) {
     if(err) {
       console.log('Error parsing form: ' + err);
     } else {
+      console.log('fields = ' + fields);
+      console.log("fields['username'] = " + fields['username']);
       account.find({'username': fields['username']}).exec(function(err, result) {
         console.log('Result = ' + result);
         if(err) {
