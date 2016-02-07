@@ -90,16 +90,12 @@ function loginAttempt(req, res) {
     if(err) {
       console.log('Error parsing form: ' + err);
     } else {
-      var usrnm = fields['username'];
-      console.log('usrnm = ' + usrnm);
-      console.log('fields = ' + fields);
-      console.log("fields['username'] = " + fields['username']);
-      account.find({'username': fields['username']}).exec(function(err, result) {
+      account.find({'username': fields['loginUsername']}).exec(function(err, result) {
         console.log('Result = ' + result);
         if(err) {
           res.render('/login/', { message: 'Username not found, try again!', error: { username: 'has-error'} });
         } else {
-          bcrypt.compare(fields['password'], result['password'], function(err, isMatch) {
+          bcrypt.compare(fields['loginPassword'], result['password'], function(err, isMatch) {
             if(err) {
               console.log('Error checking password: ' + err);
             } else {
