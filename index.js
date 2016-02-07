@@ -108,7 +108,7 @@ function loginAttempt(req, res) {
               console.log('Error checking password: ' + err);
             } else {
               if(isMatch) {
-                req.session.username = fields['loginUsername'];
+                req.session.username = 'Test';
                 res.redirect('/accounts/');
               } else {
                 res.render('login', { message: 'Incorrect password, try again!', error: { 'password': 'has-error'} });
