@@ -92,7 +92,7 @@ function loginAttempt(req, res) {
     } else {
       account.find({'username': fields['username']}).exec(function(err, result) {
         if(err) {
-          res.render('/login', { message: 'Username not found, try again!', error{ 'username': 'has-error'} });
+          res.render('/login/', { message: 'Username not found, try again!', error: { username: 'has-error'} });
         } else {
           bcrypt.compare(fields['password'], result['password'], function(err, isMatch) {
             if(err) {
@@ -101,7 +101,7 @@ function loginAttempt(req, res) {
               if(isMatch) {
                 res.redirect('/accounts/');
               } else {
-                res.render('login', { message: 'Incorrect password, try again!', error: { 'password': 'has-error'} });
+                res.render('login', { message: 'Incorrect password, try again!', error: { password: 'has-error'} });
               }
             }
           });
