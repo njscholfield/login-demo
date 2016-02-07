@@ -2,12 +2,14 @@ var mongoose = require('mongoose');
 var express = require('express');
 var formidable = require('formidable');
 var bcrypt = require('bcrypt');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 var app = express();
 
 app.set('port', process.env.PORT || 4000);
 app.set('view engine', 'ejs');
-app.use(express.cookieParser());
-app.use(express.session({secret: '1234567890QWERTY'}));
+app.use(cookieParser());
+app.use(session({secret: '1234567890QWERTY'}));
 
 app.get('/', function(req, res) {
   res.render('register', { data: '', error: '', message: '' });
