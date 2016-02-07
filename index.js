@@ -6,6 +6,8 @@ var app = express();
 
 app.set('port', process.env.PORT || 4000);
 app.set('view engine', 'ejs');
+app.use(express.cookieParser());
+app.use(express.session({secret: '1234567890QWERTY'}));
 
 app.get('/', function(req, res) {
   res.render('register', { data: '', error: '', message: '' });
@@ -75,6 +77,7 @@ function registerNewAccount(req, res) {
             if(err) {
               console.log('Error saving account: ' + err);
             }
+            req.session.username = fields['inputUsername'];
             res.redirect('/accounts/');
           });
         }
@@ -103,6 +106,7 @@ function loginAttempt(req, res) {
               console.log('Error checking password: ' + err);
             } else {
               if(isMatch) {
+                req.session.username = fields['loginUsername'];
                 res.redirect('/accounts/');
               } else {
                 res.render('login', { message: 'Incorrect password, try again!', error: { 'password': 'has-error'} });
