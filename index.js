@@ -93,6 +93,7 @@ function loginAttempt(req, res) {
       account.find({'username': fields['loginUsername']}).exec(function(err, result) {
         result.forEach(function(obj) {
           result = obj;
+          console.log('Result = ' + result);
         });
         if(err || !result) {
           res.render('/login/', { message: 'Username not found, try again!', error: { 'username': 'has-error'} });
