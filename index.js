@@ -102,7 +102,7 @@ function loginAttempt(req, res) {
   var form = formidable.IncomingForm();
   var user;
 
-  form.parse(req, function(err, fields, files, ret()) {
+  form.parse(req, function(err, fields, files, function(value) { return ret(value) }) {
     if(err) {
       console.log('Error parsing form: ' + err);
     } else {
