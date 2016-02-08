@@ -43,6 +43,7 @@ app.get('/login/', function(req, res) {
 app.post('/login/', function(req, res) {
   loginAttempt(req, res, function(user) {
     req.session.username = user;
+    console.log('Did this work? '+ user);
   });
 });
 
