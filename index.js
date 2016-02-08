@@ -114,13 +114,12 @@ function loginAttempt(req, res) {
         if(err || !password) {
           res.render('login', { message: 'Username not found, try again!', error: { 'username': 'has-error'} });
         } else {
-          bcrypt.compare(fields['loginPassword'], password, function(err, isMatch) {
+          bcrypt.compare(fields['loginPassword'], password, function(err, isMatch, ret()) {
             if(err) {
               console.log('Error checking password: ' + err);
             } else {
               if(isMatch) {
-                user = fields['loginUsername'];
-                console.log('User (assign) = ' + user);
+                ret(fields['loginUsername']);
                 res.render('myaccount', { username: user } );
               } else {
                 res.render('login', { message: 'Incorrect password, try again!', error: { 'password': 'has-error'} });
@@ -131,8 +130,9 @@ function loginAttempt(req, res) {
       });
     }
   });
-  console.log('User (return) = ' + user);
-  return user;
+  req.session.username = function ret(value) {
+    return value;
+  }
 }
 
 app.listen(app.get('port'), function() {
