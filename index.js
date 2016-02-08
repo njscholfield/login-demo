@@ -26,7 +26,7 @@ app.get('/accounts/', function(req, res) {
     if(err) {
       console.log('Error finding account ' + err);
     }
-    express.session.MemoryStore.get(req.sessionID, function(err, data) {
+    session.MemoryStore.get(req.sessionID, function(err, data) {
       console.log('data = ' + data);
       console.log('data.username = ' + data.username);
     })
