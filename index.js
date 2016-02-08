@@ -41,7 +41,7 @@ app.get('/login/', function(req, res) {
 });
 
 app.post('/login/', function(req, res) {
-  req.session.username = loginAttempt(req, res);
+  loginAttempt(req, res);
   console.log('post login: ' + req.session.username);
 });
 
@@ -101,6 +101,7 @@ function registerNewAccount(req, res) {
 function loginAttempt(req, res) {
   var form = formidable.IncomingForm();
   var user;
+  req.session.username = 'This is a test';
 
   form.parse(req, function(err, fields, files) {
     if(err) {
