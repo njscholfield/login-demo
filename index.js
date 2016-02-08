@@ -7,7 +7,7 @@ var bcrypt = require('bcrypt');
 var app = express();
 
 app.set('trust proxy');
-app.use(session({ store: new RedisStore({url: process.env.REDIS_URL}), secret: process.env.SESSION_SECRET, resave: true, cookie: { secure: true  }));
+app.use(session({ store: new RedisStore({url: process.env.REDIS_URL}), secret: process.env.SESSION_SECRET, resave: true, cookie: { secure: true  } }));
 app.set('port', process.env.PORT || 4000);
 app.set('view engine', 'ejs');
 
