@@ -120,6 +120,7 @@ function loginAttempt(req, res) {
             } else {
               if(isMatch) {
                 user = fields['loginUsername'];
+                console.log('User (assign) = ' + user);
                 res.render('myaccount', { username: user } );
               } else {
                 res.render('login', { message: 'Incorrect password, try again!', error: { 'password': 'has-error'} });
@@ -130,6 +131,7 @@ function loginAttempt(req, res) {
       });
     }
   });
+  console.log('User (return) = ' + user);
   return user;
 }
 
