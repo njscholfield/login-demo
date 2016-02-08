@@ -27,6 +27,7 @@ app.post('/', function(req, res) {
 app.get('/test/', function(req, res) {
   console.log('/test/: ' + req.session.test);
   res.write(req.session.test);
+  res.end();
 });
 
 app.get('/accounts/', function(req, res) {
