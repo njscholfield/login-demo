@@ -22,7 +22,11 @@ app.post('/', function(req, res) {
 
 app.get('/test/', function(req, res) {
   console.log('/test/: ' + req.session.test);
-  res.write(req.session.test);
+  if(req.session.test) {
+    res.write(req.session.test);
+  } else {
+    res.write('Error: test value has no value.');
+  }
   res.end();
 });
 
