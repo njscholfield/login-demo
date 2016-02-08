@@ -50,7 +50,7 @@ app.get('/login/', function(req, res) {
 });
 
 app.post('/login/', function(req, res) {
-  loginAttempt(req, res, next);
+  loginAttempt(req, res);
 });
 
 mongoose.connect(process.env.MONGOLAB_URI, function(err, res) {
