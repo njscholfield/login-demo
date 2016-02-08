@@ -15,7 +15,7 @@ app.use(session({store: new RedisStore({url: process.env.REDIS_URL}), secret: '1
 }));
 
 app.get('/', function(req, res) {
-  req.session.username = 'This is a username';
+  req.session.test = 'This is a username';
   res.render('register', { data: '', error: '', message: '' });
 });
 
@@ -24,7 +24,7 @@ app.post('/', function(req, res) {
 });
 
 app.get('/accounts/', function(req, res) {
-  console.log('Test Username: ' + req.session.username);
+  console.log('Test value: ' + req.session.test);
   account.find({}).exec(function(err, result) {
     if(err) {
       console.log('Error finding account ' + err);
