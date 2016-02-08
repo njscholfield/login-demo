@@ -130,13 +130,7 @@ function loginAttempt(req, res) {
         }
       });
     }
-    next(user);
-  }, function(value) {
-    return ret(value);
   });
-  req.session.username = function ret(value) {
-    return value;
-  }
 }
 
 app.listen(app.get('port'), function() {
