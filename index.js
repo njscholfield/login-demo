@@ -43,7 +43,7 @@ app.get('/accounts/', function(req, res) {
 
 app.get('/login/', function(req, res) {
   if(req.session.username) {
-    res.render('myaccount', { username: req.session.username, message: '', error: {} });
+    res.render('myaccount', { username: req.session.username, message: {}, error: {} });
   } else {
     res.render('login', { message: '', error: {} });
   }
@@ -137,7 +137,7 @@ function loginAttempt(req, res) {
             } else {
               if(isMatch) {
                 req.session.username = fields['loginUsername'];
-                res.render('myaccount', { username: req.session.username } );
+                res.render('myaccount', { username: req.session.username, message: {}, error: {} } );
               } else {
                 res.render('login', { message: 'Incorrect password, try again!', error: { 'password': 'has-error'} });
               }
@@ -173,18 +173,18 @@ function changePassword(req, res) {
                       console.log('Error updating new password: ' + err);
                     } else {
                       console.log('Update successful. Result: ' + result);
-                      res.render('myaccount', {username: req.session.username, message: 'Password successfully changed!', error: {} });
+                      res.render('myaccount', {username: req.session.username, message: {'content': 'Password successfully changed!', 'type': 'text-success'}, error: {} });
                     }
                   });
                 }
               });
             } else {
-              res.render('myaccount', {username: req.session.username, message: 'Current password is incorrect, try again!', error: {'currentPassword': 'has-error'} });
+              res.render('myaccount', {username: req.session.username, message: {'content': 'Current password is incorrect, try again!', 'type': 'text-danger' }, error: {'currentPassword': 'has-error'} });
             }
           });
         });
       } else {
-        res.render('myaccount', {username: req.session.username, message: 'New passwords do not match, try again!', error: {'newPassword': 'has-error'} });
+        res.render('myaccount', {username: req.session.username, message: {'content': 'New passwords do not match, try again!', 'type': 'text-danger' }, error: {'newPassword': 'has-error'} });
       }
     }
   });
