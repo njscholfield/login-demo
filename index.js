@@ -12,7 +12,6 @@ app.use(session({secret: '1234567890QWERTY', resave: true,
   saveUninitialized: true,
   cookie: { secure: true }
 }));
-var store = session.store;
 
 app.get('/', function(req, res) {
   res.render('register', { data: '', error: '', message: '' });
@@ -27,7 +26,7 @@ app.get('/accounts/', function(req, res) {
     if(err) {
       console.log('Error finding account ' + err);
     }
-    store.get(req.sessionID, function(err, data) {
+    session.get(req.sessionID, function(err, data) {
       console.log('data = ' + data);
       console.log('data.username = ' + data.username);
     })
