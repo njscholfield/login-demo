@@ -50,7 +50,11 @@ app.get('/login/', function(req, res) {
 });
 
 app.post('/login/', function(req, res) {
-  loginAttempt(req, res);
+  if(req.session.username) {
+    changePassword(req, res);
+  } else {
+    loginAttempt(req, res);
+  }
   console.log('post login: ' + req.session.username);
 });
 
@@ -141,6 +145,47 @@ function loginAttempt(req, res) {
           });
         }
       });
+    }
+  });
+}
+
+function changePassword(req, res) {
+  var form = formidable.IncomingForm();
+  var password;
+
+  form.parse(req, function(err, fields, files) {
+    if(err) {
+      console.log('Error parsing form: ' + err);
+    } else {
+      if(fields['newPassword1'] == fields['newPassword2']) {
+
+        account.find({'username': req.session.username}).exec(function(err, result) {
+          result.forEach(function(obj) {
+            password = obj.password;
+          });
+        });
+
+        bcrypt.compare(fields['currentPassword'], password, function(err, isMatch) {
+          if(isMatch) {
+            bcrypt.hash(fields['newPassword1'], 12, function(err, hash) {
+              if(err) {
+                console.log('Error hashing newPassword: ' + err);
+              } else {
+                account.update({'username': req.session.username }, {$set{'password': hash}}, function(err, result) {
+                  if(err) {
+                    console.log('Error updating new password: ' + err);
+                  } else {
+                    console.log('Update successful. Result: ' + result);
+                    res.render('myaccount', {message: 'Password successfully changed!', error: {} });
+                  }
+                });
+              }
+            });
+          }
+        });
+      } else {
+        res.render('myaccount', {message: 'New passwords do not match, try again!', error {'newPassword': 'has-error'} });
+      }
     }
   });
 }
