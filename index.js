@@ -25,6 +25,7 @@ app.get('/accounts/', function(req, res) {
     if(err) {
       console.log('Error finding account ' + err);
     }
+      console.log('req.session.username (render) = ' + req.session.username);
       res.render('accounts', { data: result, username: req.session.username });
   });
 });
@@ -81,6 +82,7 @@ function registerNewAccount(req, res) {
               console.log('Error saving account: ' + err);
             }
             req.session.username = fields['inputUsername'];
+            console.log('req.session.username (assign) = ' + req.session.username);
             res.redirect('/accounts/');
           });
         }
@@ -110,6 +112,7 @@ function loginAttempt(req, res) {
             } else {
               if(isMatch) {
                 req.session.username = fields['loginUsername'];
+                console.log('req.session.username (login) = ' + req.session.username);
                 res.redirect('/accounts/');
               } else {
                 res.render('login', { message: 'Incorrect password, try again!', error: { 'password': 'has-error'} });
