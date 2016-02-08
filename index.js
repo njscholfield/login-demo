@@ -27,6 +27,9 @@ app.get('/accounts/', function(req, res) {
       console.log('Error finding account ' + err);
     }
     req.session.reload(function(err) {
+      if(err) {
+        console.log('Reload error: ' + err);
+      }
       console.log('req.session.username (render) = ' + req.session.username);
       res.render('accounts', { data: result, username: req.session.username });
     });
