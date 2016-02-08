@@ -41,7 +41,7 @@ app.get('/login/', function(req, res) {
 });
 
 app.post('/login/', function(req, res) {
-  loginAttempt(req, res);
+  req.session.username = loginAttempt(req, res);
   console.log('post login: ' + req.session.username);
 });
 
@@ -130,7 +130,7 @@ function loginAttempt(req, res) {
       });
     }
   });
-  req.session.username = user;
+  return user;
 }
 
 app.listen(app.get('port'), function() {
