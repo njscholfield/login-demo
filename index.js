@@ -14,6 +14,15 @@ app.use(session({store: new RedisStore({url: process.env.REDIS_URL}), secret: '1
   cookie: { secure: true }
 }));
 
+app.use(function(req, res, next) {
+  console.log('Hit at app.use function. Next = ' + next);
+  if(!req.session.username) {
+    req.session.username = '';
+  } else {
+    req.session.username = next;
+  }
+});
+
 app.get('/', function(req, res) {
   res.render('register', { data: '', error: '', message: '' });
 });
@@ -41,10 +50,7 @@ app.get('/login/', function(req, res) {
 });
 
 app.post('/login/', function(req, res) {
-  loginAttempt(req, res, function(user) {
-    req.session.username = user;
-    console.log('Did this work? '+ user);
-  });
+  loginAttempt(req, res, next);
 });
 
 mongoose.connect(process.env.MONGOLAB_URI, function(err, res) {
