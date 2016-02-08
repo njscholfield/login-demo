@@ -6,10 +6,11 @@ var formidable = require('formidable');
 var bcrypt = require('bcrypt');
 var app = express();
 
-app.use(session({store: new RedisStore({url: process.env.REDIS_URL}), secret: '1234567890QWERTY', resave: true,
+/*app.use(session({store: new RedisStore({url: process.env.REDIS_URL}), secret: '1234567890QWERTY', resave: true,
   saveUninitialized: true,
   cookie: { secure: true }
-}));
+}));*/
+app.use(session({secret: 'jesus'}));
 app.set('port', process.env.PORT || 4000);
 app.set('view engine', 'ejs');
 app.set('trust proxy');
@@ -24,6 +25,7 @@ app.post('/', function(req, res) {
 });
 
 app.get('/test/', function(req, res) {
+  console.log('/test/: ' + req.session.test);
   res.write(req.session.test);
 });
 
