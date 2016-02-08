@@ -21,6 +21,7 @@ app.use(function(req, res, next, user) {
   } else {
     req.session.username = user;
   }
+  console.log('App.use username = ' + req.session.username);
   next();
 });
 
