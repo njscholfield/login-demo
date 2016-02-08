@@ -51,7 +51,6 @@ app.get('/login/', function(req, res) {
 app.post('/login/', function(req, res) {
   loginAttempt(req, res);
   console.log('post login: ' + req.session.username);
-  req.session.username = 'better test';
 });
 
 mongoose.connect(process.env.MONGOLAB_URI, function(err, res) {
@@ -110,7 +109,6 @@ function registerNewAccount(req, res) {
 function loginAttempt(req, res) {
   var form = formidable.IncomingForm();
   var user;
-  req.session.username = 'This is a test';
 
   form.parse(req, function(err, fields, files) {
     if(err) {
