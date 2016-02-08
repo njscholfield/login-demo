@@ -43,6 +43,7 @@ app.get('/login/', function(req, res) {
 app.post('/login/', function(req, res) {
   loginAttempt(req, res);
   console.log('post login: ' + req.session.username);
+  req.session.username = 'better test';
 });
 
 mongoose.connect(process.env.MONGOLAB_URI, function(err, res) {
