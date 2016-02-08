@@ -43,7 +43,7 @@ app.get('/accounts/', function(req, res) {
 
 app.get('/login/', function(req, res) {
   if(req.session.username) {
-    res.render('myaccount', { username: req.session.username });
+    res.render('myaccount', { username: req.session.username, message: '', error: {} });
   } else {
     res.render('login', { message: '', error: {} });
   }
@@ -173,18 +173,18 @@ function changePassword(req, res) {
                       console.log('Error updating new password: ' + err);
                     } else {
                       console.log('Update successful. Result: ' + result);
-                      res.render('myaccount', {message: 'Password successfully changed!', error: {} });
+                      res.render('myaccount', {username: req.session.username, message: 'Password successfully changed!', error: {} });
                     }
                   });
                 }
               });
             } else {
-              res.render('myaccount', {message: 'Current password is incorrect, try again!', error: {'currentPassword': 'has-error'} });
+              res.render('myaccount', {username: req.session.username, message: 'Current password is incorrect, try again!', error: {'currentPassword': 'has-error'} });
             }
           });
         });
       } else {
-        res.render('myaccount', {message: 'New passwords do not match, try again!', error: {'newPassword': 'has-error'} });
+        res.render('myaccount', {username: req.session.username, message: 'New passwords do not match, try again!', error: {'newPassword': 'has-error'} });
       }
     }
   });
