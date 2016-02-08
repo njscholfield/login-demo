@@ -14,17 +14,6 @@ app.use(session({store: new RedisStore({url: process.env.REDIS_URL}), secret: '1
   cookie: { secure: true }
 }));
 
-app.use(function(req, res, next, user) {
-  console.log('Hit at app.use function. Next = ' + user);
-  if(!req.session.username) {
-    req.session.username = '';
-  } else {
-    req.session.username = user;
-  }
-  console.log('App.use username = ' + req.session.username);
-  next();
-});
-
 app.get('/', function(req, res) {
   res.render('register', { data: '', error: '', message: '' });
 });
@@ -51,8 +40,8 @@ app.get('/login/', function(req, res) {
   }
 });
 
-app.post('/login/', function(req, res, next) {
-  loginAttempt(req, res, next);
+app.post('/login/', function(req, res) {
+  loginAttempt(req, res);
   console.log('post login: ' + req.session.username);
 });
 
@@ -109,7 +98,7 @@ function registerNewAccount(req, res) {
   });
 }
 
-function loginAttempt(req, res, next) {
+function loginAttempt(req, res) {
   var form = formidable.IncomingForm();
 
   form.parse(req, function(err, fields, files) {
@@ -130,9 +119,7 @@ function loginAttempt(req, res, next) {
             } else {
               if(isMatch) {
                 req.session.username = fields['loginUsername'];
-                res.render('myaccount', { username: req.session.username }, function(req, res, next) {
-                  next(fields['loginUsername']);
-                });
+                res.render('myaccount', { username: req.session.username } );
               } else {
                 res.render('login', { message: 'Incorrect password, try again!', error: { 'password': 'has-error'} });
               }
