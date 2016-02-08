@@ -15,6 +15,7 @@ app.use(session({store: new RedisStore({url: process.env.REDIS_URL}), secret: '1
 }));
 
 app.get('/', function(req, res) {
+  req.session.username = 'This is a username';
   res.render('register', { data: '', error: '', message: '' });
 });
 
