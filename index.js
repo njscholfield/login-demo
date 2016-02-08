@@ -26,7 +26,7 @@ app.get('/accounts/', function(req, res) {
     if(err) {
       console.log('Error finding account ' + err);
     }
-    req.session.reload(function(err) {
+    req.session.get(req.sessionID, function(err) {
       if(err) {
         console.log('Reload error: ' + err);
       }
