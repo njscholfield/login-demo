@@ -168,7 +168,7 @@ function changePassword(req, res) {
                 if(err) {
                   console.log('Error hashing newPassword: ' + err);
                 } else {
-                  account.update({'username': req.session.username }, {$set{'password': hash}}, function(err, result) {
+                  account.update({'username': req.session.username }, {$set: {'password': hash}}, function(err, result) {
                     if(err) {
                       console.log('Error updating new password: ' + err);
                     } else {
