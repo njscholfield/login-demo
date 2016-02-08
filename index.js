@@ -26,12 +26,10 @@ app.get('/accounts/', function(req, res) {
     if(err) {
       console.log('Error finding account ' + err);
     }
-    session.get(req.sessionID, function(err, data) {
-      console.log('data = ' + data);
-      console.log('data.username = ' + data.username);
-    })
+    req.session.reload(function(err) {
       console.log('req.session.username (render) = ' + req.session.username);
       res.render('accounts', { data: result, username: req.session.username });
+    });
   });
 });
 
