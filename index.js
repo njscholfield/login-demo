@@ -16,6 +16,8 @@ app.use(session({store: new RedisStore({url: process.env.REDIS_URL}), secret: '1
 app.use(function(req, res, next) {
   if(!req.session.username) {
     req.session.username = '';
+  } else {
+    req.session.username = 'babies';
   }
   next();
 });
