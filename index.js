@@ -106,7 +106,7 @@ function registerNewAccount(req, res) {
   });
 }
 
-function loginAttempt(req, res) {
+function loginAttempt(req, res, next) {
   var form = formidable.IncomingForm();
 
   form.parse(req, function(err, fields, files) {
