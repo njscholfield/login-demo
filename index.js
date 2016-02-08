@@ -106,7 +106,7 @@ function loginAttempt(req, res) {
     if(err) {
       console.log('Error parsing form: ' + err);
     } else {
-      account.find({'username': fields['loginUsername']}).exec(function(err, result, next) {
+      account.find({'username': fields['loginUsername']}).exec(function(err, result) {
         var password;
         result.forEach(function(obj) {
           password = obj.password;
@@ -114,12 +114,12 @@ function loginAttempt(req, res) {
         if(err || !password) {
           res.render('login', { message: 'Username not found, try again!', error: { 'username': 'has-error'} });
         } else {
-          bcrypt.compare(fields['loginPassword'], password, function(err, isMatch, next) {
+          bcrypt.compare(fields['loginPassword'], password, function(err, isMatch) {
             if(err) {
               console.log('Error checking password: ' + err);
             } else {
               if(isMatch) {
-                next(fields['loginUsername']);
+                user = fields['loginUsername'];
                 res.render('myaccount', { username: user } );
               } else {
                 res.render('login', { message: 'Incorrect password, try again!', error: { 'password': 'has-error'} });
@@ -129,6 +129,7 @@ function loginAttempt(req, res) {
         }
       });
     }
+    next(user);
   }, function(value) {
     return ret(value);
   });
