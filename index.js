@@ -112,8 +112,7 @@ function loginAttempt(req, res) {
             } else {
               if(isMatch) {
                 req.session.username = fields['loginUsername'];
-                console.log('req.session.username (login) = ' + req.session.username);
-                res.redirect('/accounts/');
+                res.render('myaccount', { username: req.session.username });
               } else {
                 res.render('login', { message: 'Incorrect password, try again!', error: { 'password': 'has-error'} });
               }
