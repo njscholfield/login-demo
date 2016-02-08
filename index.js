@@ -184,7 +184,7 @@ function changePassword(req, res) {
           });
         });
       } else {
-        res.render('myaccount', {message: 'New passwords do not match, try again!', error {'newPassword': 'has-error'} });
+        res.render('myaccount', {message: 'New passwords do not match, try again!', error: {'newPassword': 'has-error'} });
       }
     }
   });
