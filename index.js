@@ -179,7 +179,7 @@ function changePassword(req, res) {
                 }
               });
             } else {
-              res.render('myaccount', {message: 'Current password is incorrect, try again!'}, error: {'currentPassword': 'has-error'});
+              res.render('myaccount', {message: 'Current password is incorrect, try again!', error: {'currentPassword': 'has-error'} });
             }
           });
         });
