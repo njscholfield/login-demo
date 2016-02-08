@@ -12,7 +12,7 @@ app.use(session({secret: '1234567890QWERTY', resave: true,
   saveUninitialized: true,
   cookie: { secure: true }
 }));
-var store = session.MemoryStore;
+var store = session.store;
 
 app.get('/', function(req, res) {
   res.render('register', { data: '', error: '', message: '' });
