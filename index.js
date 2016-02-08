@@ -16,8 +16,8 @@ app.use(session({store: new RedisStore({url: process.env.REDIS_URL}), secret: '1
 app.use(function(req, res, next) {
   if(!req.session.username) {
     req.session.username = '';
-    next();
   }
+  next();
 });
 
 app.get('/', function(req, res) {
@@ -99,7 +99,7 @@ function registerNewAccount(req, res) {
   });
 }
 
-function loginAttempt(req, res) {
+function loginAttempt(req, res, next) {
   var form = formidable.IncomingForm();
 
   form.parse(req, function(err, fields, files) {
