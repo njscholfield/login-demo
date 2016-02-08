@@ -13,14 +13,6 @@ app.use(session({store: new RedisStore({url: process.env.REDIS_URL}), secret: '1
   saveUninitialized: true,
   cookie: { secure: true }
 }));
-app.use(function(req, res, next) {
-  if(!req.session.username) {
-    req.session.username = '';
-  } else {
-    req.session.username = 'babies';
-  }
-  next();
-});
 
 app.get('/', function(req, res) {
   res.render('register', { data: '', error: '', message: '' });
@@ -41,11 +33,17 @@ app.get('/accounts/', function(req, res) {
 });
 
 app.get('/login/', function(req, res) {
-  res.render('login', { message: '', error: {} });
+  if(req.session.username) {
+    res.render('myaccount', { username: req.session.username });
+  } else {
+    res.render('login', { message: '', error: {} });
+  }
 });
 
 app.post('/login/', function(req, res) {
-  loginAttempt(req, res);
+  loginAttempt(req, res, function(user) {
+    req.session.username = user;
+  });
 });
 
 mongoose.connect(process.env.MONGOLAB_URI, function(err, res) {
@@ -123,6 +121,7 @@ function loginAttempt(req, res, next) {
               if(isMatch) {
                 req.session.username = fields['loginUsername'];
                 res.render('myaccount', { username: req.session.username });
+                next(fields['loginUsername']);
               } else {
                 res.render('login', { message: 'Incorrect password, try again!', error: { 'password': 'has-error'} });
               }
