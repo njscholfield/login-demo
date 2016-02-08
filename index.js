@@ -8,7 +8,7 @@ var app = express();
 app.set('port', process.env.PORT || 4000);
 app.set('view engine', 'ejs');
 app.set('trust proxy');
-app.use(session({secret: '1234567890QWERTY', resave: false,
+app.use(session({secret: '1234567890QWERTY', resave: true,
   saveUninitialized: true,
   cookie: { secure: true }}));
 
