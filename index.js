@@ -14,12 +14,12 @@ app.use(session({store: new RedisStore({url: process.env.REDIS_URL}), secret: '1
   cookie: { secure: true }
 }));
 
-app.use(function(req, res, next) {
-  console.log('Hit at app.use function. Next = ' + next);
+app.use(function(req, res, next, user) {
+  console.log('Hit at app.use function. Next = ' + user);
   if(!req.session.username) {
     req.session.username = '';
   } else {
-    req.session.username = next;
+    req.session.username = user;
   }
 });
 
@@ -106,7 +106,7 @@ function registerNewAccount(req, res) {
   });
 }
 
-function loginAttempt(req, res, next) {
+function loginAttempt(req, res) {
   var form = formidable.IncomingForm();
 
   form.parse(req, function(err, fields, files) {
