@@ -24,6 +24,7 @@ app.post('/', function(req, res) {
 });
 
 app.get('/accounts/', function(req, res) {
+  console.log('Test Username: ' + req.session.username);
   account.find({}).exec(function(err, result) {
     if(err) {
       console.log('Error finding account ' + err);
