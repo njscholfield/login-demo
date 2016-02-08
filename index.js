@@ -23,6 +23,10 @@ app.post('/', function(req, res) {
   registerNewAccount(req, res);
 });
 
+app.get('/test/', function(req, res) {
+  res.write(req.session.test);
+});
+
 app.get('/accounts/', function(req, res) {
   console.log('Test value: ' + req.session.test);
   account.find({}).exec(function(err, result) {
