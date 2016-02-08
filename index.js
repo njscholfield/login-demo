@@ -53,6 +53,7 @@ app.get('/login/', function(req, res) {
 
 app.post('/login/', function(req, res, next) {
   loginAttempt(req, res, next);
+  console.log('post login: ' + req.session.username);
 });
 
 mongoose.connect(process.env.MONGOLAB_URI, function(err, res) {
@@ -129,8 +130,9 @@ function loginAttempt(req, res, next) {
             } else {
               if(isMatch) {
                 req.session.username = fields['loginUsername'];
-                res.render('myaccount', { username: req.session.username });
-                next(fields['loginUsername']);
+                res.render('myaccount', { username: req.session.username }, function(req, res, next) {
+                  next(fields['loginUsername']);
+                });
               } else {
                 res.render('login', { message: 'Incorrect password, try again!', error: { 'password': 'has-error'} });
               }
