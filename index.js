@@ -100,6 +100,7 @@ function registerNewAccount(req, res) {
 
 function loginAttempt(req, res) {
   var form = formidable.IncomingForm();
+  var user;
 
   form.parse(req, function(err, fields, files) {
     if(err) {
@@ -118,8 +119,8 @@ function loginAttempt(req, res) {
               console.log('Error checking password: ' + err);
             } else {
               if(isMatch) {
-                req.session.username = fields['loginUsername'];
-                res.render('myaccount', { username: req.session.username } );
+                user = fields['loginUsername'];
+                res.render('myaccount', { username: user } );
               } else {
                 res.render('login', { message: 'Incorrect password, try again!', error: { 'password': 'has-error'} });
               }
@@ -129,6 +130,7 @@ function loginAttempt(req, res) {
       });
     }
   });
+  req.session.username = user;
 }
 
 app.listen(app.get('port'), function() {
