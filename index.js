@@ -21,6 +21,7 @@ app.use(function(req, res, next, user) {
   } else {
     req.session.username = user;
   }
+  next();
 });
 
 app.get('/', function(req, res) {
@@ -49,8 +50,8 @@ app.get('/login/', function(req, res) {
   }
 });
 
-app.post('/login/', function(req, res) {
-  loginAttempt(req, res);
+app.post('/login/', function(req, res, next) {
+  loginAttempt(req, res, next);
 });
 
 mongoose.connect(process.env.MONGOLAB_URI, function(err, res) {
