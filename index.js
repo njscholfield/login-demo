@@ -102,7 +102,7 @@ function loginAttempt(req, res) {
   var form = formidable.IncomingForm();
   var user;
 
-  form.parse(req, function(err, fields, files, function(value) { return ret(value) }) {
+  form.parse(req, function(err, fields, files) {
     if(err) {
       console.log('Error parsing form: ' + err);
     } else {
@@ -129,6 +129,8 @@ function loginAttempt(req, res) {
         }
       });
     }
+  }, function(value) {
+    return ret(value);
   });
   req.session.username = function ret(value) {
     return value;
