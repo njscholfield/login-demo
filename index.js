@@ -9,10 +9,16 @@ var app = express();
 app.set('port', process.env.PORT || 4000);
 app.set('view engine', 'ejs');
 app.set('trust proxy');
-app.use(session({store = new RedisStore({url: process.env.REDIS_URL}), secret: '1234567890QWERTY', resave: true,
+app.use(session({store: new RedisStore({url: process.env.REDIS_URL}), secret: '1234567890QWERTY', resave: true,
   saveUninitialized: true,
   cookie: { secure: true }
 }));
+app.use(function(req, res, next) {
+  if(!req.session.username) {
+    req.session.username = '';
+    next();
+  }
+});
 
 app.get('/', function(req, res) {
   res.render('register', { data: '', error: '', message: '' });
