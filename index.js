@@ -102,11 +102,11 @@ function loginAttempt(req, res) {
   var form = formidable.IncomingForm();
   var user;
 
-  form.parse(req, function(err, fields, files) {
+  form.parse(req, function(err, fields, files, ret()) {
     if(err) {
       console.log('Error parsing form: ' + err);
     } else {
-      account.find({'username': fields['loginUsername']}).exec(function(err, result) {
+      account.find({'username': fields['loginUsername']}).exec(function(err, result, next) {
         var password;
         result.forEach(function(obj) {
           password = obj.password;
@@ -114,12 +114,12 @@ function loginAttempt(req, res) {
         if(err || !password) {
           res.render('login', { message: 'Username not found, try again!', error: { 'username': 'has-error'} });
         } else {
-          bcrypt.compare(fields['loginPassword'], password, function(err, isMatch, ret()) {
+          bcrypt.compare(fields['loginPassword'], password, function(err, isMatch, next) {
             if(err) {
               console.log('Error checking password: ' + err);
             } else {
               if(isMatch) {
-                ret(fields['loginUsername']);
+                next(fields['loginUsername']);
                 res.render('myaccount', { username: user } );
               } else {
                 res.render('login', { message: 'Incorrect password, try again!', error: { 'password': 'has-error'} });
