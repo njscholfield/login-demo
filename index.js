@@ -6,10 +6,6 @@ var formidable = require('formidable');
 var bcrypt = require('bcrypt');
 var app = express();
 
-/*app.use(session({store: new RedisStore({url: process.env.REDIS_URL}), secret: '1234567890QWERTY', resave: true,
-  saveUninitialized: true,
-  cookie: { secure: true }
-}));*/
 app.use(session({ store: new RedisStore({url: process.env.REDIS_URL}), secret: process.env.SESSION_SECRET, resave: true, cookie: { secure: true } }));
 app.set('port', process.env.PORT || 4000);
 app.set('view engine', 'ejs');
@@ -52,6 +48,11 @@ app.get('/login/', function(req, res) {
 app.post('/login/', function(req, res) {
   loginAttempt(req, res);
   console.log('post login: ' + req.session.username);
+});
+
+app.get('/logout/', function(req, res) {
+  req.session.destroy();
+  res.redirect('/login/');
 });
 
 mongoose.connect(process.env.MONGOLAB_URI, function(err, res) {
