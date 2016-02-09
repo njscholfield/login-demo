@@ -21,7 +21,7 @@
     "express": "^4.13.4",
     "express-session": "^1.13.0",
     "formidable": "^1.0.17",
-    "mongoose": "^4.4.1",
+    "mongoose": "^4.4.2",
     "redis": "^2.4.2"
   },
   "repository": {
