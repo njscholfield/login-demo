@@ -42,9 +42,9 @@ app.get('/login/', function(req, res) {
 
 app.post('/login/', function(req, res) {
   if(req.session.username) {
-    changePassword(req, res);
+    account.changePassword(req, res);
   } else {
-    loginAttempt(req, res);
+    account.loginAttempt(req, res);
   }
 });
 
