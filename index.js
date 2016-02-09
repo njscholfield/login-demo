@@ -1,7 +1,7 @@
 var express = require('express');
 var session = require('express-session');
 var RedisStore = require('connect-redis')(session);
-var account = require('account.js');
+var account = require('./account.js');
 var app = express();
 
 app.set('trust proxy');
