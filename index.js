@@ -89,7 +89,7 @@ function registerNewAccount(req, res) {
     } else if(fields['inputPassword'] != fields['inputPassword2']){
       res.render('register', { data: fields, error: 'has-error', message: "Passwords do not match, try again!" });
     } else {
-      bcrypt.hash(fields['inputPassword'], 15, function(err, hash) {
+      bcrypt.hash(fields['inputPassword'], 12, function(err, hash) {
         if(err) {
           console.log('Error hashing password: ' + err);
         } else {
@@ -104,8 +104,7 @@ function registerNewAccount(req, res) {
               console.log('Error saving account: ' + err);
             }
             req.session.username = fields['inputUsername'];
-            console.log('req.session.username (assign) = ' + req.session.username);
-            res.redirect('/accounts/');
+            res.redirect('/login/');
           });
         }
       });
