@@ -106,7 +106,7 @@ exports.changePassword = function(req, res) {
     if(err) {
       console.log('Error parsing form: ' + err);
     } else {
-      if(fields['newPassword1'] == fields['newPassword2']) {
+      if(verifyPassword(req, res, fields)) {
         account.find({'username': req.session.username}, {password: 1}).exec(function(err, result) {
           result.forEach(function(obj) {
             password = obj.password;
