@@ -22,7 +22,7 @@ var accountSchema = new mongoose.Schema({
 });
 var account = mongoose.model('account', accountSchema);
 
-exports.function getAllAccounts(req, res) {
+exports.getAllAccounts = function(req, res) {
   account.find({}).exec(function(err, result) {
     if(err) {
       console.log('Error finding account ' + err);
@@ -31,7 +31,7 @@ exports.function getAllAccounts(req, res) {
   });
 }
 
-exports.function registerNewAccount(req, res) {
+exports.registerNewAccount = function(req, res) {
   var form = new formidable.IncomingForm();
 
   form.parse(req, function(err, fields, files) {
@@ -64,7 +64,7 @@ exports.function registerNewAccount(req, res) {
   });
 }
 
-exports.function loginAttempt(req, res) {
+exports.loginAttempt = function(req, res) {
   var form = formidable.IncomingForm();
 
   form.parse(req, function(err, fields, files) {
@@ -97,7 +97,7 @@ exports.function loginAttempt(req, res) {
   });
 }
 
-exports.function changePassword(req, res) {
+exports.changePassword = function(req, res) {
   var form = formidable.IncomingForm();
   var password;
 
