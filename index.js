@@ -31,12 +31,10 @@ app.get('/test/', function(req, res) {
 });
 
 app.get('/accounts/', function(req, res) {
-  console.log('Test value: ' + req.session.test);
   account.find({}).exec(function(err, result) {
     if(err) {
       console.log('Error finding account ' + err);
     }
-      console.log('req.session.username (render) = ' + req.session.username);
       res.render('accounts', { data: result, username: req.session.username });
   });
 });
@@ -55,11 +53,10 @@ app.post('/login/', function(req, res) {
   } else {
     loginAttempt(req, res);
   }
-  console.log('post login: ' + req.session.username);
 });
 
 app.get('/logout/', function(req, res) {
-  req.session.username = null;
+  req.session.destroy();
   res.redirect('/login/');
 });
 
