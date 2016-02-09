@@ -18,29 +18,29 @@
       <form action="/" method="post">
         <legend>Register</legend>
         <fieldset>
-          <div class="form-group">
+          <div class="form-group <%= error['first'] %>">
             <label for="inputFirst">First Name</label>
             <input type="text" name="inputFirst" class="form-control" placeholder="John" required="true" value=<%= data['inputFirst'] %>>
           </div>
-          <div class="form-group">
+          <div class="form-group <%= error['last'] %>">
             <label for="inputLast">Last Name</label>
             <input type="text" name="inputLast" class="form-control" placeholder="Smith" required="true" value=<%= data['inputLast'] %>>
           </div>
-          <div class="form-group">
+          <div class="form-group <%= error['email'] %>">
             <label for="inputEmail">Email Address</label>
-            <input type="email" name="inputEmail" class="form-control" placeholder="username@example.com" required="true" value=<%= data['inputEmail'] %>>
+            <input type="email" name="inputEmail" class="form-control" placeholder="username@example.com" required="true" autocomplete="email" value=<%= data['inputEmail'] %>>
           </div>
-          <div class="form-group">
+          <div class="form-group <%= error['username'] %>">
             <label for="inputUsername">Username</label>
             <input type="text" name="inputUsername" class="form-control" placeholder="jsmith" required="true" autocapitalize="none" autocorrect="off" value=<%= data['inputUsername'] %>>
           </div>
-          <div class="form-group <%= error %>">
-            <label for="inputPassword">Password</label>
-            <input type="password" name="inputPassword" class="form-control" placeholder="not 'password' please" required="true">
+          <div class="form-group <%= error['password'] %>">
+            <label for="inputPassword">Password <button type="button" class="btn btn-xs btn-default" data-container="body" data-toggle="popover" data-placement="top" data-content="Password must be 8-72 characters">ℹ︎</button></label>
+            <input type="password" name="inputPassword" class="form-control" autocomplete="new-password" placeholder="not 'password' please" required="true" minlength="8" maxlength="72">
           </div>
-          <div class="form-group <%= error %>">
+          <div class="form-group <%= error['password'] %>">
             <label for="inputPassword2">Confirm Password</label>
-            <input type="password" name="inputPassword2" class="form-control" placeholder="not 'password' please" required="true">
+            <input type="password" name="inputPassword2" class="form-control" autocomplete="new-password" placeholder="not 'password' please" required="true" minlength="8" maxlength="72">
           </div>
         </fieldset>
         <div class="form-group">
@@ -49,5 +49,6 @@
         </div>
       </form>
     </div>
+    <% include ./views/partials/scripts.ejs %>
   </body>
 </html>

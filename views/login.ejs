@@ -17,11 +17,11 @@
         <fieldset>
           <div class="form-group <%= error['username'] %>">
             <label for="loginUsername">Username</label>
-            <input type="text" class="form-control" placeholder="username" name="loginUsername">
+            <input type="text" class="form-control" placeholder="username" name="loginUsername" autocomplete="username" required="true">
           </div>
           <div class="form-group <%= error['password'] %>">
             <label for="loginPassword">Password</label>
-            <input type="password" class="form-control" placeholder="Password" name="loginPassword">
+            <input type="password" class="form-control" placeholder="Password" name="loginPassword" autocomplete="current-password" required="true">
           </div>
         </fieldset>
         <div class="form-group">

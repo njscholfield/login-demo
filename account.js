@@ -38,28 +38,29 @@ exports.registerNewAccount = function(req, res) {
     //Should also implement username or email already taken warnings
     if(err) {
       console.log('Error parsing form: ' + err);
-    } else if(fields['inputPassword'] != fields['inputPassword2']){
-      res.render('register', { data: fields, error: 'has-error', message: "Passwords do not match, try again!" });
     } else {
-      bcrypt.hash(fields['inputPassword'], 12, function(err, hash) {
-        if(err) {
-          console.log('Error hashing password: ' + err);
-        } else {
-          var newAcct = new account({
-            name: { first: fields['inputFirst'], last: fields['inputLast']},
-            email: fields['inputEmail'],
-            username: fields['inputUsername'],
-            password: hash
-          });
-          newAcct.save(function(err) {
-            if(err) {
-              console.log('Error saving account: ' + err);
-            }
-            req.session.username = fields['inputUsername'];
-            res.redirect('/login/');
-          });
-        }
-      });
+      if(verifyPassword(req, res, fields)){
+        bcrypt.hash(fields['inputPassword'], 12, function(err, hash) {
+          if(err) {
+            console.log('Error hashing password: ' + err);
+          } else {
+            var newAcct = new account({
+              name: { first: fields['inputFirst'], last: fields['inputLast']},
+              email: fields['inputEmail'],
+              username: fields['inputUsername'],
+              password: hash
+            });
+            newAcct.save(function(err) {
+              if(err) {
+                console.log('Error saving account: ' + err);
+                res.render('register', { data: fields, error: {}, message: err });
+              }
+              req.session.username = fields['inputUsername'];
+              res.redirect('/login/');
+            });
+          }
+        });
+      }
     }
   });
 }
@@ -71,7 +72,7 @@ exports.loginAttempt = function(req, res) {
     if(err) {
       console.log('Error parsing form: ' + err);
     } else {
-      account.find({'username': fields['loginUsername']}).exec(function(err, result) {
+      account.find({'username': fields['loginUsername']}, {password: 1}).exec(function(err, result) {
         var password;
         result.forEach(function(obj) {
           password = obj.password;
@@ -106,7 +107,7 @@ exports.changePassword = function(req, res) {
       console.log('Error parsing form: ' + err);
     } else {
       if(fields['newPassword1'] == fields['newPassword2']) {
-        account.find({'username': req.session.username}).exec(function(err, result) {
+        account.find({'username': req.session.username}, {password: 1}).exec(function(err, result) {
           result.forEach(function(obj) {
             password = obj.password;
           });
@@ -121,19 +122,31 @@ exports.changePassword = function(req, res) {
                       console.log('Error updating new password: ' + err);
                     } else {
                       console.log('Update successful. Result: ' + result);
-                      res.render('myaccount', {username: req.session.username, message: {'content': 'Password successfully changed!', 'type': 'text-success'}, error: {} });
+                      res.render('myaccount', { username: req.session.username, message: {'content': 'Password successfully changed!', 'type': 'text-success'}, error: {} });
                     }
                   });
                 }
               });
             } else {
-              res.render('myaccount', {username: req.session.username, message: {'content': 'Current password is incorrect, try again!', 'type': 'text-danger' }, error: {'currentPassword': 'has-error'} });
+              res.render('myaccount', { username: req.session.username, message: {'content': 'Current password is incorrect, try again!', 'type': 'text-danger' }, error: {'currentPassword': 'has-error'} });
             }
           });
         });
       } else {
-        res.render('myaccount', {username: req.session.username, message: {'content': 'New passwords do not match, try again!', 'type': 'text-danger' }, error: {'newPassword': 'has-error'} });
+        res.render('myaccount', { username: req.session.username, message: {'content': 'New passwords do not match, try again!', 'type': 'text-danger' }, error: {'newPassword': 'has-error'} });
       }
     }
   });
+}
+
+function verifyPassword(req, res, fields) {
+  if(fields['inputPassword'].length < 8 || fields['inputPassword'] > 72) {
+    res.render('register', {data: fields, error: {'password': 'has-error'}, message: 'Password must be 8-72 characters' });
+    return false;
+  } else if(fields['inputPassword'] != fields['inputPassword2']) {
+    res.render('register', { data: fields, error: {'password': 'has-error'}, message: "Passwords do not match, try again!" } );
+    return false;
+  } else {
+    return true;
+  }
 }

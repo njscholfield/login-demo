@@ -18,15 +18,15 @@
         <fieldset>
           <div class="form-group <%= error['currentPassword'] %>">
             <label for="currentPassword">Current Password</label>
-            <input type="password" class="form-control" name="currentPassword" placeholder="current password">
+            <input type="password" class="form-control" name="currentPassword" placeholder="current password" required="true" autocomplete="current-password">
           </div>
           <div class="form-group <%= error['newPassword'] %>">
-            <label for="newPassword1">New Password <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="top" data-content="Password must be 8-72 characters" data-original-title="" title="">ℹ︎</button></label>
-            <input type="password" class="form-control" name="newPassword1" placeholder="new password">
+            <label for="newPassword1">New Password <button type="button" class="btn btn-xs btn-default" data-container="body" data-toggle="popover" data-placement="top" data-content="Password must be 8-72 characters">ℹ︎</button></label>
+            <input type="password" class="form-control" name="newPassword1" placeholder="new password" minlength="8" maxlength="72" required="true" autocomplete="new-password">
           </div>
           <div class="form-group <%= error['newPassword'] %>">
             <label for="newPassword2">Confirm New Password</label>
-            <input type="password" class="form-control" name="newPassword2" placeholder="new password">
+            <input type="password" class="form-control" name="newPassword2" placeholder="new password" minlength="8" maxlength="72" required="true" autocomplete="new-password">
            </div>
         </fieldset>
         <div class="form-group">
@@ -37,12 +37,6 @@
       <a class="btn btn-primary" href="/accounts/">All Accounts</a>
       <a class="btn btn-danger" href="/logout/">Logout</a>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-    <script src="//noahscholfield.com/js/bootstrap.min.js"></script>
-    <script>
-      $(function () {
-        $('[data-toggle="popover"]').popover()
-      })
-    </script>
+    <% include ../views/partials/scripts.ejs %>
   </body>
 </html>
