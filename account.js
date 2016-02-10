@@ -38,6 +38,11 @@ exports.registerNewAccount = function(req, res) {
     //Should also implement username or email already taken warnings
     if(err) {
       console.log('Error parsing form: ' + err);
+      if(err.code == 11000) {
+        console.log("likes err.code == 11000");
+      } else if(err.WriteError.code == 11000) {
+        console.log("likes err.WriteError.code == 11000");
+      }
     } else {
       if(verifyPassword(req, res, fields, 'register')){
         bcrypt.hash(fields['newPassword1'], 12, function(err, hash) {
