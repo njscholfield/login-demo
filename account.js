@@ -39,16 +39,10 @@ exports.registerNewAccount = function(req, res) {
     if(err) {
       console.log('Error parsing form: ' + err);
       err.forEach(function(error) {
-        console.log('Error = ' + error);
-        if(error.code == 11000) {
-          console.log('likes forEach > error.code');
-        }
+        console.log('Error: ' + error);
       });
-      if(err.code == 11000) {
-        console.log("likes err.code == 11000");
-      } else if(err.WriteError.code == 11000) {
-        console.log("likes err.WriteError.code == 11000");
-      }
+        console.log('err.code: ' + err.code);
+        console.log('err.WriteError.code: ' + err.WriteError.code);
     } else {
       if(verifyPassword(req, res, fields, 'register')){
         bcrypt.hash(fields['newPassword1'], 12, function(err, hash) {
