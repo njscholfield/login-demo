@@ -39,8 +39,9 @@ exports.registerNewAccount = function(req, res) {
     if(err) {
       console.log('Error parsing form: ' + err);
       err.forEach(function(error) {
+        console.log('Error = ' + error);
         if(error.code == 11000) {
-          console.log('likes forEach > error.code')
+          console.log('likes forEach > error.code');
         }
       });
       if(err.code == 11000) {
