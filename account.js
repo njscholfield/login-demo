@@ -38,11 +38,6 @@ exports.registerNewAccount = function(req, res) {
     //Should also implement username or email already taken warnings
     if(err) {
       console.log('Error parsing form: ' + err);
-      err.forEach(function(error) {
-        console.log('Error: ' + error);
-      });
-        console.log('err.code: ' + err.code);
-        console.log('err.WriteError.code: ' + err.WriteError.code);
     } else {
       if(verifyPassword(req, res, fields, 'register')){
         bcrypt.hash(fields['newPassword1'], 12, function(err, hash) {
@@ -58,6 +53,12 @@ exports.registerNewAccount = function(req, res) {
             newAcct.save(function(err) {
               if(err) {
                 console.log('Error saving account: ' + err);
+                console.log('Error parsing form: ' + err);
+                err.forEach(function(error) {
+                  console.log('Error: ' + error);
+                });
+                  console.log('err.code: ' + err.code);
+                  console.log('err.WriteError.code: ' + err.WriteError.code);
                 res.render('register', { data: fields, error: {}, message: { 'type': 'text-danger', 'content': err } });
               } else {
                 req.session.username = fields['inputUsername'];
