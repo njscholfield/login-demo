@@ -52,17 +52,22 @@ exports.registerNewAccount = function(req, res) {
             });
             newAcct.save(function(err) {
               var result;
-              var location;
+              var hasError = {}
               if(err) {
                 console.log('Error saving account: ' + err);
                 if(err.code === 11000) {
                   var temp = err.errmsg.split("$", 2)
                   temp = temp[1].split("_", 2);
                   result = 'The ' + temp[0] + ' you entered has already been taken';
+                  if(temp[0] == 'email') {
+                    hasError = {'email': 'has-error'};
+                  } else {
+                    hasError = {'username': 'has-error'};
+                  }
                 } else {
                   result = 'All fields are required';
                 }
-                res.render('register', { data: fields, error: { temp[0]: 'has-error'}, message: { 'type': 'text-danger', 'content': result } });
+                res.render('register', { data: fields, error: hasError, message: { 'type': 'text-danger', 'content': result } });
               } else {
                 req.session.username = fields['inputUsername'];
                 res.redirect('/login/');
