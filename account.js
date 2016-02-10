@@ -58,7 +58,7 @@ exports.registerNewAccount = function(req, res) {
                 if(err.code === 11000) {
                   var temp = err.errmsg.split("$", 2)
                   console.log(temp);
-                  temp = result[1].split("_", 2);
+                  temp = temp.split("_", 2);
                   console.log(temp);
                   result = 'The ' + temp[0] + ' you entered has already been taken';
                   if(temp[0] = 'username') {
