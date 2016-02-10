@@ -68,9 +68,10 @@ exports.registerNewAccount = function(req, res) {
                   result = 'All fields are required';
                   for(var key in fields){
                     console.log('Key: ' + key);
-                    console.log('fields[key]' + fields[key]);
+                    console.log('fields[key]: ' + fields[key]);
                     if(fields[key] == '') {
                       hasError[key] = 'has-error';
+                      console.log('hasError[key]: ' + hasError[key]);
                     }
                   }
                 }
