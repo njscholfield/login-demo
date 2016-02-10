@@ -38,11 +38,11 @@ exports.registerNewAccount = function(req, res) {
     //Should also implement username or email already taken warnings
     if(err) {
       console.log('Error parsing form: ' + err);
-      err.forEach(function(error)) {
+      err.forEach(function(error) {
         if(error.code == 11000) {
           console.log('likes forEach > error.code')
         }
-      }
+      });
       if(err.code == 11000) {
         console.log("likes err.code == 11000");
       } else if(err.WriteError.code == 11000) {
