@@ -11,7 +11,7 @@ app.set('view engine', 'ejs');
 
 app.get('/', function(req, res) {
   req.session.test = 'This is a username';
-  res.render('register', { data: '', error: '', message: '' });
+  res.render('register', { data: {}, error: {}, message: {} });
 });
 
 app.post('/', function(req, res) {
