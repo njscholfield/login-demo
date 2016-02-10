@@ -51,11 +51,22 @@ exports.registerNewAccount = function(req, res) {
               password: hash
             });
             newAcct.save(function(err) {
+              var result
               if(err) {
                 console.log('Error saving account: ' + err);
-                console.log('err.code: ' + err.code);
-                console.log('err.WriteError.code: ' + err.WriteError.code);
-                res.render('register', { data: fields, error: {}, message: { 'type': 'text-danger', 'content': err } });
+                if(err.code === 11000) {
+                  var temp = err.errmsg.split("$", 2)
+                  temp = result[1].split("_", 2);
+                  result[0] = 'The ' + temp[0] + ' you entered has already been taken';
+                  if(temp[0] = 'username') {
+                    result[1] = 'inputUsername';
+                  } else {
+                    result[1] = 'inputEmail';
+                  }
+                } else {
+                  result = 'All fields are required';
+                }
+                res.render('register', { data: fields, error: {result[1]: 'has-error'}, message: { 'type': 'text-danger', 'content': result } });
               } else {
                 req.session.username = fields['inputUsername'];
                 res.redirect('/login/');
