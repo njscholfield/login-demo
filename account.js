@@ -52,7 +52,7 @@ exports.registerNewAccount = function(req, res) {
             });
             newAcct.save(function(err) {
               var result;
-              var hasError = {}
+              var hasError = {};
               if(err) {
                 console.log('Error saving account: ' + err);
                 if(err.code === 11000) {
@@ -66,6 +66,11 @@ exports.registerNewAccount = function(req, res) {
                   }
                 } else {
                   result = 'All fields are required';
+                  fields.forEach(function(obj) {
+                    if(obj = '') {
+                      hasError[obj] = 'has-error';
+                    }
+                  });
                 }
                 res.render('register', { data: fields, error: hasError, message: { 'type': 'text-danger', 'content': result } });
               } else {
