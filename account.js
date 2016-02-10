@@ -70,7 +70,7 @@ exports.registerNewAccount = function(req, res) {
                     if(fields[key] == '') {
                       hasError[key] = 'has-error';
                     }
-                  });
+                  }
                 }
                 res.render('register', { data: fields, error: hasError, message: { 'type': 'text-danger', 'content': result } });
               } else {
