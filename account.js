@@ -39,7 +39,7 @@ exports.registerNewAccount = function(req, res) {
     if(err) {
       console.log('Error parsing form: ' + err);
     } else {
-      if(verifyPassword(req, res, fields)){
+      if(verifyPassword(req, res, fields, 'register')){
         bcrypt.hash(fields['newPassword1'], 12, function(err, hash) {
           if(err) {
             console.log('Error hashing password: ' + err);
@@ -106,7 +106,7 @@ exports.changePassword = function(req, res) {
     if(err) {
       console.log('Error parsing form: ' + err);
     } else {
-      if(verifyPassword(req, res, fields)) {
+      if(verifyPassword(req, res, fields, 'myaccount')) {
         account.find({'username': req.session.username}, {password: 1}).exec(function(err, result) {
           result.forEach(function(obj) {
             password = obj.password;
@@ -132,19 +132,17 @@ exports.changePassword = function(req, res) {
             }
           });
         });
-      } else {
-        res.render('myaccount', { username: req.session.username, message: {'content': 'New passwords do not match, try again!', 'type': 'text-danger' }, error: {'newPassword': 'has-error'} });
       }
     }
   });
 }
 
-function verifyPassword(req, res, fields) {
+function verifyPassword(req, res, fields, page) {
   if(fields['newPassword1'].length < 8 || fields['newPassword1'] > 72) {
-    res.render('register', {data: fields, error: {'password': 'has-error'}, message: 'Password must be 8-72 characters' });
+    res.render(page, { username: req.session.username, data: fields, error: {'newPassword': 'has-error'}, message: 'Password must be 8-72 characters' });
     return false;
   } else if(fields['newPassword1'] != fields['newPassword2']) {
-    res.render('register', { data: fields, error: {'password': 'has-error'}, message: "Passwords do not match, try again!" } );
+    res.render(page, { username: req.session.username, data: fields, error: {'newPassword': 'has-error'}, message: "Passwords do not match, try again!" } );
     return false;
   } else {
     return true;
