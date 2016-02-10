@@ -66,8 +66,8 @@ exports.registerNewAccount = function(req, res) {
                   }
                 } else {
                   result = 'All fields are required';
-                  for(var key in fields){
-                    if(fields.hasOwnProperty(key)) {
+                  for(key in fields){
+                    if(fields[key] == '') {
                       hasError[key] = 'has-error';
                     }
                   });
