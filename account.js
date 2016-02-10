@@ -139,10 +139,10 @@ exports.changePassword = function(req, res) {
 
 function verifyPassword(req, res, fields, page) {
   if(fields['newPassword1'].length < 8 || fields['newPassword1'] > 72) {
-    res.render(page, { username: req.session.username, data: fields, error: {'newPassword': 'has-error'}, message: 'Password must be 8-72 characters' });
+    res.render(page, { username: req.session.username, data: fields, error: {'newPassword': 'has-error'}, message: {'type': 'text-danger', 'content': 'Password must be 8-72 characters'} });
     return false;
   } else if(fields['newPassword1'] != fields['newPassword2']) {
-    res.render(page, { username: req.session.username, data: fields, error: {'newPassword': 'has-error'}, message: "Passwords do not match, try again!" } );
+    res.render(page, { username: req.session.username, data: fields, error: {'newPassword': 'has-error'}, message: {'type': 'text-danger', 'content': 'Passwords do not match, try again!'} } );
     return false;
   } else {
     return true;
