@@ -53,7 +53,7 @@ exports.registerNewAccount = function(req, res) {
             newAcct.save(function(err) {
               if(err) {
                 console.log('Error saving account: ' + err);
-                res.render('register', { data: fields, error: {}, message: err });
+                res.render('register', { data: fields, error: {}, message: { 'type': 'text-danger', 'content': err });
               } else {
                 req.session.username = fields['inputUsername'];
                 res.redirect('/login/');
