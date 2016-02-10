@@ -40,7 +40,7 @@ exports.registerNewAccount = function(req, res) {
       console.log('Error parsing form: ' + err);
     } else {
       if(verifyPassword(req, res, fields)){
-        bcrypt.hash(fields['inputPassword'], 12, function(err, hash) {
+        bcrypt.hash(fields['newPassword1'], 12, function(err, hash) {
           if(err) {
             console.log('Error hashing password: ' + err);
           } else {
@@ -140,10 +140,10 @@ exports.changePassword = function(req, res) {
 }
 
 function verifyPassword(req, res, fields) {
-  if(fields['inputPassword'].length < 8 || fields['inputPassword'] > 72) {
+  if(fields['newPassword1'].length < 8 || fields['newPassword1'] > 72) {
     res.render('register', {data: fields, error: {'password': 'has-error'}, message: 'Password must be 8-72 characters' });
     return false;
-  } else if(fields['inputPassword'] != fields['inputPassword2']) {
+  } else if(fields['newPassword1'] != fields['newPassword2']) {
     res.render('register', { data: fields, error: {'password': 'has-error'}, message: "Passwords do not match, try again!" } );
     return false;
   } else {
