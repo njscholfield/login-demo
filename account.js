@@ -54,9 +54,10 @@ exports.registerNewAccount = function(req, res) {
               if(err) {
                 console.log('Error saving account: ' + err);
                 res.render('register', { data: fields, error: {}, message: err });
+              } else {
+                req.session.username = fields['inputUsername'];
+                res.redirect('/login/');
               }
-              req.session.username = fields['inputUsername'];
-              res.redirect('/login/');
             });
           }
         });
