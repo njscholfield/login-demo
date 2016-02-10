@@ -60,9 +60,9 @@ exports.registerNewAccount = function(req, res) {
                   temp = temp[1].split("_", 2);
                   result = 'The ' + temp[0] + ' you entered has already been taken';
                   if(temp[0] == 'email') {
-                    hasError = {'email': 'has-error'};
+                    hasError = {'inputEmail': 'has-error'};
                   } else {
-                    hasError = {'username': 'has-error'};
+                    hasError = {'inputUsername': 'has-error'};
                   }
                 } else {
                   result = 'All fields are required';
