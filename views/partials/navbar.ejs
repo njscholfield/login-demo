@@ -17,13 +17,13 @@
         <li id="Projects"><a href="/projects/">Projects</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <a href="/login/"><li>
-        <%if(username) { %>
-          <%= username %>
-        <% } else { %>
-          <%= 'Login' %>
+        <a href="/login/">
+        <% if(username){ %>
+          <li><%= username %></li>
+        <% } else{ %>
+          <li>Login</li>
         <% } %>
-        </li></a>
+        </a>
       </ul>
     </div>
   </div>
