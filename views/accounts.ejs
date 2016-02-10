@@ -5,6 +5,7 @@
     <% include ../views/partials/header.ejs %>
   </head>
   <body>
+    <% include ../views/partials/navbar.ejs %>
     <div class="jumbotron">
       <div class="container">
         <h1>MongoDB Test</h1>
@@ -18,5 +19,6 @@
         <pre><%= JSON.stringify(d, undefined, 2) %></pre>
       <% }); %>
     </div>
+    <% include ../views/partials/scripts.ejs %>
   </body>
 </html>
