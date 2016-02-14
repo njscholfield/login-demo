@@ -54,8 +54,7 @@ app.get('/logout/', function(req, res) {
 });
 
 app.get('/user/:username', function(req, res) {
-  res.send(req.params.username);
-  res.end();
+  account.findAccount(req, res, req.params.username);
 });
 
 app.listen(app.get('port'), function() {

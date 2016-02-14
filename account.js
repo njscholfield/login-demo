@@ -157,6 +157,23 @@ exports.changePassword = function(req, res) {
   });
 }
 
+exports.findAccount = function(req, res, user) {
+  account.find({'username': user}).exec(function(err, result) {
+    if(err) {
+      console.log('Error retrieving user: ' + err);
+    } else {
+      result.forEach(function(res) {
+        if(res) {
+          res.send(result.name.first + ' ' result.name.last);
+        } else {
+          res.send('User could not be found');
+        }
+      });
+      res.end();
+    }
+  });
+}
+
 function verifyPassword(req, res, fields, page) {
   if(fields['newPassword1'].length < 8 || fields['newPassword1'] > 72) {
     res.render(page, { username: req.session.username, data: fields, error: {'newPassword': 'has-error'}, message: {'type': 'text-danger', 'content': 'Password must be 8-72 characters'} });
