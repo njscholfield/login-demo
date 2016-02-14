@@ -162,7 +162,7 @@ exports.findAccount = function(req, res, user) {
     if(err) {
       console.log('Error retrieving user: ' + err);
     } else {
-      if(result) {
+      if(result.length > 0) {
         result.forEach(function(resdoc) {
             res.send(resdoc.name.first + ' ' + resdoc.name.last);
         });
