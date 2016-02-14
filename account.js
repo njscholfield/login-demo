@@ -164,7 +164,7 @@ exports.findAccount = function(req, res, user) {
     } else {
       result.forEach(function(res) {
         if(res) {
-          res.send(result.name.first + ' ' result.name.last);
+          res.send(result.name.first + ' ' + result.name.last);
         } else {
           res.send('User could not be found');
         }
