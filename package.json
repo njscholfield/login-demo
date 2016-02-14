@@ -2,9 +2,9 @@
   "name": "login-demo",
   "version": "1.0.0",
   "description": "A demo login page using MongoDB",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node server.js"
   },
   "keywords": [
     "mongo",
