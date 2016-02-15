@@ -167,8 +167,7 @@ exports.findAccount = function(req, res, user) {
             res.render('user', { user: resdoc });
         });
       } else {
-        res.send('User could not be found');
-        res.end();
+        res.render('error', {message: 'User could not be found' });
       }
     }
   });
