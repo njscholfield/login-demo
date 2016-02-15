@@ -167,10 +167,46 @@ exports.findAccount = function(req, res, user) {
             res.render('user', { user: resdoc });
         });
       } else {
-        res.render('error', {message: 'User could not be found' });
+        res.render('error', { message: 'User could not be found' });
       }
     }
   });
+}
+
+exports.deleteAccount = function(req, res) {
+  var form = formidable.IncomingForm();
+  var password;
+
+  form.parse(req, function(err, fields, files) {
+    if(err) {
+      console.log('Error parsing form: ' + err);
+    } else {
+      account.find({'username': req.session.username}, {password: 1}).exec(function(err, result) {
+        if(err) {
+          console.log('Error finding account: ' + err);
+        } else {
+          result.forEach(function resdoc) {
+            password = resdoc.password;
+          }
+          bcrypt.compare(fields.password, password, function(err, isMatch) {
+            if(isMatch) {
+              account.remove({username: req.session.username}, function(err, results) {
+                if(err) {
+                  console.log('Error deleting account: ' + err);
+                  res.render('error', {message: 'Error deleting account'});
+                } else {
+                  res.redirect('/');
+                  req.session.destroy();
+                }
+              });
+            } else {
+              res.render('myaccount', {message: {'type': 'text-danger', 'content': 'Incorrect Password, try again!'}, username: req.session.username, error: {} })
+            }
+          });
+        }
+      });
+    }
+  })
 }
 
 function verifyPassword(req, res, fields, page) {

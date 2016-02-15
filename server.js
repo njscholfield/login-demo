@@ -57,6 +57,10 @@ app.get('/user/:username', function(req, res) {
   account.findAccount(req, res, req.params.username);
 });
 
+app.post('/delete-account/', function(req, res) {
+  account.deleteAccount(req, res);
+});
+
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
