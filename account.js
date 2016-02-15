@@ -35,7 +35,6 @@ exports.registerNewAccount = function(req, res) {
   var form = new formidable.IncomingForm();
 
   form.parse(req, function(err, fields, files) {
-    //Should also implement username or email already taken warnings
     if(err) {
       console.log('Error parsing form: ' + err);
     } else {
@@ -193,14 +192,14 @@ exports.deleteAccount = function(req, res) {
               account.remove({username: req.session.username}, function(err, results) {
                 if(err) {
                   console.log('Error deleting account: ' + err);
-                  res.render('error', {message: 'Error deleting account'});
+                  res.render('error', { message: 'Error deleting account' });
                 } else {
                   req.session.destroy();
                   res.redirect('/');
                 }
               });
             } else {
-              res.render('myaccount', {message: {'type': 'text-danger', 'content': 'Incorrect Password, try again!'}, username: req.session.username, error: {} })
+              res.render('myaccount', { message: {'type': 'text-danger', 'content': 'Incorrect Password, try again!'}, username: req.session.username, error: {} })
             }
           });
         }
@@ -210,7 +209,7 @@ exports.deleteAccount = function(req, res) {
 }
 
 function verifyPassword(req, res, fields, page) {
-  if(fields['newPassword1'].length < 8 || fields['newPassword1'] > 72) {
+  if(fields['newPassword1'].length < 8 || fields['newPassword1'].length > 72) {
     res.render(page, { username: req.session.username, data: fields, error: {'newPassword': 'has-error'}, message: {'type': 'text-danger', 'content': 'Password must be 8-72 characters'} });
     return false;
   } else if(fields['newPassword1'] != fields['newPassword2']) {
