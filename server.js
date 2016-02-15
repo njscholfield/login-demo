@@ -19,7 +19,7 @@ app.post('/', function(req, res) {
 });
 
 app.get('/test/', function(req, res) {
-  console.log('/test/: ' + req.session.test);
+  console.log('/test/' + req.session.test);
   if(req.session.test) {
     res.write(req.session.test);
   } else {
@@ -58,7 +58,6 @@ app.get('/user/:username', function(req, res) {
 });
 
 app.post('/delete-account/', function(req, res) {
-  console.log('Recieved /delete-account/ POST');
   account.deleteAccount(req, res);
 });
 

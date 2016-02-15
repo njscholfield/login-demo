@@ -195,8 +195,8 @@ exports.deleteAccount = function(req, res) {
                   console.log('Error deleting account: ' + err);
                   res.render('error', {message: 'Error deleting account'});
                 } else {
-                  res.redirect('/');
                   req.session.destroy();
+                  res.redirect('/');
                 }
               });
             } else {
