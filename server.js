@@ -58,6 +58,7 @@ app.get('/user/:username', function(req, res) {
 });
 
 app.post('/delete-account/', function(req, res) {
+  console.log('Recieved /delete-account/ POST');
   account.deleteAccount(req, res);
 });
 
