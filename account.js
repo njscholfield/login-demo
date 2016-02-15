@@ -185,9 +185,9 @@ exports.deleteAccount = function(req, res) {
         if(err) {
           console.log('Error finding account: ' + err);
         } else {
-          result.forEach(function resdoc) {
+          result.forEach(function(resdoc) {
             password = resdoc.password;
-          }
+          });
           bcrypt.compare(fields.password, password, function(err, isMatch) {
             if(isMatch) {
               account.remove({username: req.session.username}, function(err, results) {
