@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= user.name.first %> <%= user.name.last %>'s Profile</title>
+    <% include ../views/partials/header.ejs %>
+  </head>
+  <body>
+    <div class="jumbotron">
+      <div class="container">
+        <h1>user.username</h1>
+      </div>
+    </div>
+    <div class="container">
+      <h2>Account Info</h2>
+      <pre><%= JSON.stringify(user, undefined, 2) %></pre>
+    </div>
+  </body>
+</html>

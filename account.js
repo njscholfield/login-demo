@@ -164,12 +164,12 @@ exports.findAccount = function(req, res, user) {
     } else {
       if(result.length > 0) {
         result.forEach(function(resdoc) {
-            res.send(resdoc.name.first + ' ' + resdoc.name.last);
+            res.render('user', { user: resdoc });
         });
       } else {
         res.send('User could not be found');
+        res.end();
       }
-      res.end();
     }
   });
 }
