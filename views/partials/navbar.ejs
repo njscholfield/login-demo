@@ -12,18 +12,8 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li id="Home"><a href="/">Home</a></li>
-        <li id="About"><a href="/about/">About</a></li>
-        <li id="Contact"><a href="/contact/">Contact</a></li>
-        <li id="Projects"><a href="/projects/">Projects</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <a href="/login/">
-        <% if(req.session.username){ %>
-          <li><%= req.session.username %></li>
-        <% } else{ %>
-          <li>Login</li>
-        <% } %>
-        </a>
+        <li id="Login"><a href="/login/">Login</a></li>
+        <li id="Accounts"><a href="/accounts/">Contact</a></li>
       </ul>
     </div>
   </div>
