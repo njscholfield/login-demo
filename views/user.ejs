@@ -5,7 +5,11 @@
     <% include ../views/partials/header.ejs %>
   </head>
   <body>
-    <% include ../views/partials/navbar.ejs %>
+    <% if(username) { %>
+      <% include ../views/partials/navbar-private.ejs %>
+    <% } else { %>
+      <% include ../views/partials/navbar-public.ejs %>
+    <% } %>
     <div class="jumbotron">
       <div class="container">
         <h1><%= user.username %></h1>
