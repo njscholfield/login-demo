@@ -71,7 +71,7 @@ exports.registerNewAccount = function(req, res) {
                     }
                   }
                 }
-                res.render('register', { data: fields, error: hasError, message: { 'type': 'text-danger', 'content': result } });
+                res.render('register', { username: '', data: fields, error: hasError, message: { 'type': 'text-danger', 'content': result } });
               } else {
                 req.session.username = fields['inputUsername'];
                 res.redirect('/login/');
@@ -97,7 +97,7 @@ exports.loginAttempt = function(req, res) {
           password = obj.password;
         });
         if(err || !password) {
-          res.render('login', { message: 'Username not found, try again!', error: { 'username': 'has-error'} });
+          res.render('login', { username: '', message: 'Username not found, try again!', error: { 'username': 'has-error'} });
         } else {
           bcrypt.compare(fields['loginPassword'], password, function(err, isMatch) {
             if(err) {
@@ -107,7 +107,7 @@ exports.loginAttempt = function(req, res) {
                 req.session.username = fields['loginUsername'];
                 res.render('myaccount', { username: req.session.username, message: {}, error: {} } );
               } else {
-                res.render('login', { message: 'Incorrect password, try again!', error: { 'password': 'has-error'} });
+                res.render('login', { username: '', message: 'Incorrect password, try again!', error: { 'password': 'has-error'} });
               }
             }
           });
@@ -163,10 +163,10 @@ exports.findAccount = function(req, res, user) {
     } else {
       if(result.length > 0) {
         result.forEach(function(resdoc) {
-            res.render('user', { user: resdoc });
+            res.render('user', { username: req.session.username, user: resdoc });
         });
       } else {
-        res.render('error', { message: 'User could not be found' });
+        res.render('error', { username: req.session.username, message: 'User could not be found' });
       }
     }
   });
@@ -192,7 +192,7 @@ exports.deleteAccount = function(req, res) {
               account.remove({username: req.session.username}, function(err, results) {
                 if(err) {
                   console.log('Error deleting account: ' + err);
-                  res.render('error', { message: 'Error deleting account' });
+                  res.render('error', { username: req.session.username, message: 'Error deleting account' });
                 } else {
                   req.session.destroy();
                   res.redirect('/');

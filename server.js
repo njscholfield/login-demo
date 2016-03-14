@@ -11,7 +11,7 @@ app.set('view engine', 'ejs');
 
 app.get('/', function(req, res) {
   req.session.test = 'This is a username';
-  res.render('register', { data: {}, error: {}, message: {} });
+  res.render('register', { username: req.session.username, data: {}, error: {}, message: {} });
 });
 
 app.post('/', function(req, res) {
@@ -36,7 +36,7 @@ app.get('/login/', function(req, res) {
   if(req.session.username) {
     res.render('myaccount', { username: req.session.username, message: {}, error: {} });
   } else {
-    res.render('login', { message: '', error: {} });
+    res.render('login', { username: '', message: '', error: {} });
   }
 });
 
