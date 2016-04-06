@@ -61,6 +61,20 @@ app.post('/delete-account/', function(req, res) {
   account.deleteAccount(req, res);
 });
 
+app.get('/forgot/', function(req, res) {
+  res.render('forgot', { message: {} } );
+});
+
+app.post('/forgot/', function(req, res) {
+  account.forgotPassword(req, res);
+});
+
+app.get('/reset/:id', function(req, res) {
+  res.write("ID: " + req.params.id);
+  res.write(" Token: " + req.param('tkn'));
+  res.end();
+});
+
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });

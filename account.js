@@ -3,7 +3,7 @@ var formidable = require('formidable');
 var bcrypt = require('bcrypt');
 
 
-mongoose.connect(process.env.MONGOLAB_URI, function(err, res) {
+mongoose.connect(process.env.MONGOLAB_URI || process.env.MONGO, function(err, res) {
   if(err) {
     console.log('ERROR connecting to: ' + process.env.MONGOLAB_URI + '. ' + err);
   } else {
@@ -206,6 +206,37 @@ exports.deleteAccount = function(req, res) {
       });
     }
   })
+}
+
+exports.forgotPassword = function(req, res) {
+  var form = formidable.IncomingForm();
+
+  form.parse(req, function(err, fields, files) {
+    if(err) { console.log('Error parsing form: ' + err); }
+    else {
+      account.find({'email': fields.email}).exec(function(err, result) {
+        if(err) { console.log('Error searching: ' + err); }
+        else {
+          if(result.length > 0) {
+            var hashToken = bcrypt.genSaltSync(12);
+            // account.update does not work for no apparent reason
+            account.update({ 'email': fields.email }, {$set: { "reset": {"allow": "true", "token": hashToken} } }, function(err, result2) {
+              if(err){ console.log('Error adding token: ' + err); }
+              else {
+                result.forEach(function(resdoc) {
+                  var resetURL = 'https://login.noahscholfield.com/reset/' + resdoc._id + '?tkn=' + hashToken;
+                  // implement nodemailer to email reset URL
+                  res.render('forgot', { message: {'type': 'text-success', 'content': resetURL} } );
+                });
+              }
+            });
+          } else {
+            res.render('forgot', { message: {'type': 'text-danger', 'content': 'Account not found!'} } );
+          }
+        }
+      })
+    }
+  });
 }
 
 function verifyPassword(req, res, fields, page) {
