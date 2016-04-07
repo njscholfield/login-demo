@@ -70,9 +70,11 @@ app.post('/forgot/', function(req, res) {
 });
 
 app.get('/reset/:id', function(req, res) {
-  res.write("ID: " + req.params.id);
-  res.write(" Token: " + req.param('tkn'));
-  res.end();
+  res.render('reset', { error: {}, message: {}, id: req.params.id, token: req.param('tkn') } );
+});
+
+app.post('/reset/', function (req, res) {
+  account.resetPassword(req, res);
 });
 
 app.listen(app.get('port'), function() {

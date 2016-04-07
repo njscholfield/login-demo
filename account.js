@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var formidable = require('formidable');
 var bcrypt = require('bcrypt');
+var nodemailer = require('nodemailer');
 
 
 mongoose.connect(process.env.MONGOLAB_URI || process.env.MONGO, function(err, res) {
@@ -18,7 +19,12 @@ var accountSchema = new mongoose.Schema({
   },
   email: { type: String, required: true, index: { unique: true } },
   username: { type: String, required: true, index: { unique: true } },
-  password: { type: String, required: true }
+  password: { type: String, required: true },
+  reset: {
+    allow: { type: Boolean, default: false },
+    token: { type: String, default: "" },
+    date: { type: Date, default: null }
+  }
 });
 var account = mongoose.model('account', accountSchema);
 
@@ -210,6 +216,8 @@ exports.deleteAccount = function(req, res) {
 
 exports.forgotPassword = function(req, res) {
   var form = formidable.IncomingForm();
+  var eDate = new Date();
+  eDate.setHours(eDate.getHours() + 5);
 
   form.parse(req, function(err, fields, files) {
     if(err) { console.log('Error parsing form: ' + err); }
@@ -219,14 +227,21 @@ exports.forgotPassword = function(req, res) {
         else {
           if(result.length > 0) {
             var hashToken = bcrypt.genSaltSync(12);
-            // account.update does not work for no apparent reason
-            account.update({ 'email': fields.email }, {$set: { "reset": {"allow": "true", "token": hashToken} } }, function(err, result2) {
+            account.update({ 'email': fields.email }, {$set: { "reset": {"allow": true, "token": hashToken, "date": eDate } } }, function(err, result2) {
               if(err){ console.log('Error adding token: ' + err); }
               else {
                 result.forEach(function(resdoc) {
                   var resetURL = 'https://login.noahscholfield.com/reset/' + resdoc._id + '?tkn=' + hashToken;
                   // implement nodemailer to email reset URL
-                  res.render('forgot', { message: {'type': 'text-success', 'content': resetURL} } );
+                  var mailOptions = {
+                    from: '"Noah Scholfield" <blog@noahscholfield.com>', // sender address
+                    to: fields.email, // list of receivers
+                    subject: 'Password Reset', // Subject line
+                    text: 'Click the link to reset your password. ' + resetURL, // plaintext body
+                    html: '<a href="' + resetURL + '">Click Here</a>' // html body
+                  };
+                  sendEmail(mailOptions);
+                  res.render('forgot', { message: {'type': 'text-success', 'content': 'A password reset link has been emailed to you.'} } );
                 });
               }
             });
@@ -239,14 +254,74 @@ exports.forgotPassword = function(req, res) {
   });
 }
 
+exports.resetPassword = function(req, res) {
+  var form = formidable.IncomingForm();
+
+  form.parse(req, function(err, fields, files) {
+    if(err) { console.log('Error parsing form: ' + err); }
+    else {
+      account.find({_id: fields.id}).exec(function(err, result) {
+        if(err) {
+          console.log('Error finding account ' + err);
+          res.render('error', {username: '', message: 'Error finding account. Link is invalid.' });
+        } else {
+          if(result.length > 0) {
+            result.forEach(function(resdoc) {
+              if(resdoc.reset.allow && resdoc.reset.date > Date.now() && resdoc.reset.token == fields.token) {
+                if(verifyPassword(req, res, fields, 'reset')) {
+                  bcrypt.hash(fields['newPassword1'], 12, function(err, hash) {
+                    if(err) {
+                      console.log('Error hashing newPassword: ' + err);
+                    } else {
+                      account.update({_id: fields.id}, {$set: {'password': hash, 'reset.allow': false, 'reset.token': '', 'reset.date': null}}, function(err, result) {
+                        if(err) {
+                          console.log('Error updating new password: ' + err);
+                        } else {
+                          console.log('Update successful. Result: ' + result);
+                          res.render('reset', { id: fields.id, token: fields.token, message: {'content': 'Password successfully changed!', 'type': 'text-success'}, error: {} });
+                        }
+                      });
+                    }
+                  });
+                }
+              } else {
+                res.render('error', {username: '', message: 'Password reset link invalid or expired' });
+              }
+            });
+          } else {
+          res.render('error', {username: '', message: 'Account not found. Link is invalid.' });
+          }
+        }
+      });
+    }
+  });
+}
+
 function verifyPassword(req, res, fields, page) {
   if(fields['newPassword1'].length < 8 || fields['newPassword1'].length > 72) {
-    res.render(page, { username: req.session.username, data: fields, error: {'newPassword': 'has-error'}, message: {'type': 'text-danger', 'content': 'Password must be 8-72 characters'} });
+    res.render(page, { id: fields.id, token: fields.token, username: req.session.username, data: fields, error: {'newPassword': 'has-error'}, message: {'type': 'text-danger', 'content': 'Password must be 8-72 characters'} });
     return false;
   } else if(fields['newPassword1'] != fields['newPassword2']) {
-    res.render(page, { username: req.session.username, data: fields, error: {'newPassword': 'has-error'}, message: {'type': 'text-danger', 'content': 'Passwords do not match, try again!'} } );
+    res.render(page, { id: fields.id, token: fields.token, username: req.session.username, data: fields, error: {'newPassword': 'has-error'}, message: {'type': 'text-danger', 'content': 'Passwords do not match, try again!'} } );
     return false;
   } else {
     return true;
   }
+}
+
+function sendEmail(mailOptions) {
+  var transporter = nodemailer.createTransport({
+    service: 'zoho',
+    auth: {
+      user: 'blog@noahscholfield.com',
+      pass: process.env.MAIL_PASSWORD
+    }
+});
+
+  transporter.sendMail(mailOptions, function(err, info) {
+    if(err) { console.log('Error sending email: ' + err) }
+    else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
 }
