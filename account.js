@@ -316,7 +316,7 @@ function sendEmail(mailOptions) {
       user: 'blog@noahscholfield.com',
       pass: process.env.MAIL_PASSWORD
     }
-});
+  });
 
   transporter.sendMail(mailOptions, function(err, info) {
     if(err) { console.log('Error sending email: ' + err) }
