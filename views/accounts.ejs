@@ -2,13 +2,13 @@
 <html lang="en">
   <head>
     <title>MongoDB Demo</title>
-    <% include ../views/partials/header.ejs %>
+    <%- include('../views/partials/header.ejs') %>
   </head>
   <body>
     <% if(username) { %>
-      <% include ../views/partials/navbar-private.ejs %>
+      <%- include('../views/partials/navbar-private.ejs') %>
     <% } else { %>
-      <% include ../views/partials/navbar-public.ejs %>
+      <%- include('../views/partials/navbar-public.ejs') %>
     <% } %>
     <div class="jumbotron">
       <div class="container">
@@ -18,11 +18,12 @@
     <div class="container">
       <h4 class="text-success"><%= username %></h4>
       <% data.forEach(function(d) { %>
+        <% let test = { name: d.name, _id: d._id, username: d.username } %>
         <h2><%= d.username %><h2>
         <h4><%= d.name.first %> <%= d.name.last %></h4>
-        <pre><%= JSON.stringify(d, undefined, 2) %></pre>
+        <pre><%= JSON.stringify(test, undefined, 2) %></pre>
       <% }); %>
     </div>
-    <% include ../views/partials/scripts.ejs %>
+    <%- include('../views/partials/scripts.ejs') %>
   </body>
 </html>

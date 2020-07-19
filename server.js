@@ -1,12 +1,14 @@
 var express = require('express');
+var redis = require('redis');
 var session = require('express-session');
 var RedisStore = require('connect-redis')(session);
 var account = require('./account.js');
 var app = express();
 
 app.set('trust proxy');
-app.use(session({ store: new RedisStore({url: process.env.REDIS_URL}), secret: process.env.SESSION_SECRET, resave: true, saveUninitialized: true }));
-app.set('port', process.env.PORT || 4000);
+var client = redis.createClient(process.env.REDIS_URL);
+app.use(session({ store: new RedisStore({ client }), secret: process.env.SESSION_SECRET, resave: true, saveUninitialized: true }));
+app.set('port', process.env.PORT);
 app.set('view engine', 'ejs');
 
 app.get('/', function(req, res) {
@@ -16,6 +18,10 @@ app.get('/', function(req, res) {
 
 app.post('/', function(req, res) {
   account.registerNewAccount(req, res);
+});
+
+app.get('/about/', function(req, res) {
+  res.render('about', { username: req.session.username });
 });
 
 app.get('/test/', function(req, res) {
@@ -70,7 +76,7 @@ app.post('/forgot/', function(req, res) {
 });
 
 app.get('/reset/:id', function(req, res) {
-  res.render('reset', { error: {}, message: {}, id: req.params.id, token: req.param('tkn') } );
+  res.render('reset', { error: {}, message: {}, id: req.params.id, token: req.query.tkn } );
 });
 
 app.post('/reset/', function (req, res) {

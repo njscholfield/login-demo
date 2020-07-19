@@ -4,11 +4,11 @@ var bcrypt = require('bcrypt');
 var nodemailer = require('nodemailer');
 
 
-mongoose.connect(process.env.MONGOLAB_URI || process.env.MONGO, function(err, res) {
+mongoose.connect(process.env.MONGO, {useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false, useUnifiedTopology: true}, function(err) {
   if(err) {
-    console.log('ERROR connecting to: ' + process.env.MONGOLAB_URI + '. ' + err);
+    console.log('ERROR connecting to: ' + process.env.MONGO + '. ' + err);
   } else {
-    console.log ('Succeeded, connected to: ' + process.env.MONGOLAB_URI);
+    console.log ('Succeeded, connected to: ' + process.env.MONGO);
   }
 });
 
@@ -22,7 +22,7 @@ var accountSchema = new mongoose.Schema({
   password: { type: String, required: true },
   reset: {
     allow: { type: Boolean, default: false },
-    token: { type: String, default: "" },
+    token: { type: String, default: '' },
     date: { type: Date, default: null }
   }
 });
@@ -142,7 +142,7 @@ exports.changePassword = function(req, res) {
                 if(err) {
                   console.log('Error hashing newPassword: ' + err);
                 } else {
-                  account.update({'username': req.session.username }, {$set: {'password': hash}}, function(err, result) {
+                  account.updateOne({'username': req.session.username }, {$set: {'password': hash}}, function(err, result) {
                     if(err) {
                       console.log('Error updating new password: ' + err);
                     } else {
@@ -227,7 +227,7 @@ exports.forgotPassword = function(req, res) {
         else {
           if(result.length > 0) {
             var hashToken = bcrypt.genSaltSync(12);
-            account.update({ 'email': fields.email }, {$set: { "reset": {"allow": true, "token": hashToken, "date": eDate } } }, function(err, result2) {
+            account.updateOne({ 'email': fields.email }, {$set: { "reset": {"allow": true, "token": hashToken, "date": eDate } } }, function(err, result2) {
               if(err){ console.log('Error adding token: ' + err); }
               else {
                 result.forEach(function(resdoc) {
@@ -273,7 +273,7 @@ exports.resetPassword = function(req, res) {
                     if(err) {
                       console.log('Error hashing newPassword: ' + err);
                     } else {
-                      account.update({_id: fields.id}, {$set: {'password': hash, 'reset.allow': false, 'reset.token': '', 'reset.date': null}}, function(err, result) {
+                      account.updateOne({_id: fields.id}, {$set: {'password': hash, 'reset.allow': false, 'reset.token': '', 'reset.date': null}}, function(err, result) {
                         if(err) {
                           console.log('Error updating new password: ' + err);
                         } else {

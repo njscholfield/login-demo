@@ -2,13 +2,13 @@
 <html lang="en">
   <head>
     <title><%= username %> | My Account</title>
-    <% include ../views/partials/header.ejs %>
+    <%- include('../views/partials/header.ejs') %>
   </head>
   <body>
     <% if(username) { %>
-      <% include ../views/partials/navbar-private.ejs %>
+      <%- include('../views/partials/navbar-private.ejs') %>
     <% } else { %>
-      <% include ../views/partials/navbar-public.ejs %>
+      <%- include('../views/partials/navbar-public.ejs') %>
     <% } %>
     <div class="modal fade" tabindex="-1" role="dialog" id="DeleteModal">
       <div class="modal-dialog">
@@ -67,6 +67,6 @@
       <a class="btn btn-danger" href="/logout/">Logout</a>
       <button class="btn btn-danger" data-toggle="modal" data-target="#DeleteModal">Delete Account</button>
     </div>
-    <% include ../views/partials/scripts.ejs %>
+    <%- include('../views/partials/scripts.ejs') %>
   </body>
 </html>

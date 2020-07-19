@@ -2,13 +2,13 @@
 <html>
   <head>
     <title>Error</title>
-    <% include ../views/partials/header.ejs %>
+    <%- include('../views/partials/header.ejs') %>
   </head>
   <body>
     <% if(username) { %>
-      <% include ../views/partials/navbar-private.ejs %>
+      <%- include('../views/partials/navbar-private.ejs') %>
     <% } else { %>
-      <% include ../views/partials/navbar-public.ejs %>
+      <%- include('../views/partials/navbar-public.ejs') %>
     <% } %>
     <div class="jumbotron">
       <div class="container">
@@ -20,6 +20,6 @@
       <h4 class="text-danger"><%= message %></h4>
       <p>If you keep encountering the same error and do not know how to get around it, please <a href="https://noahscholfield.com/contact/" class="btn-link" target="_blank">contact me</a>. Be sure to include what you were trying to do when you encountered the error, the error message above, and the time and date of the problem so I can check the logs.</p>
     </div>
-    <% include ../views/partials/scripts.ejs %>
+    <%- include('../views/partials/scripts.ejs') %>
   </body>
 </html>

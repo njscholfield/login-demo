@@ -2,13 +2,13 @@
 <html>
   <head>
     <title><%= user.name.first %> <%= user.name.last %>'s Profile</title>
-    <% include ../views/partials/header.ejs %>
+    <%- include('../views/partials/header.ejs') %>
   </head>
   <body>
     <% if(username) { %>
-      <% include ../views/partials/navbar-private.ejs %>
+      <%- include('../views/partials/navbar-private.ejs') %>
     <% } else { %>
-      <% include ../views/partials/navbar-public.ejs %>
+      <%- include('../views/partials/navbar-public.ejs') %>
     <% } %>
     <div class="jumbotron">
       <div class="container">
@@ -20,5 +20,5 @@
       <pre><%= JSON.stringify(user, undefined, 2) %></pre>
     </div>
   </body>
-  <% include ../views/partials/scripts.ejs %>
+  <%- include('../views/partials/scripts.ejs') %>
 </html>

@@ -2,13 +2,13 @@
 <html>
   <head>
     <title>Login</title>
-    <% include ../views/partials/header.ejs %>
+    <%- include('../views/partials/header.ejs') %>
   </head>
   <body>
     <% if(username) { %>
-      <% include ../views/partials/navbar-private.ejs %>
+      <%- include('../views/partials/navbar-private.ejs') %>
     <% } else { %>
-      <% include ../views/partials/navbar-public.ejs %>
+      <%- include('../views/partials/navbar-public.ejs') %>
     <% } %>
     <div class="jumbotron">
       <div class="container">
@@ -36,6 +36,6 @@
         </div>
       </form>
     </div>
-    <% include ../views/partials/scripts.ejs %>
+    <%- include('../views/partials/scripts.ejs') %>
   </body>
 </html>
