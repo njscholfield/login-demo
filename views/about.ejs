@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>About Login Demo</title>
+    <%- include('../views/partials/header.ejs') %>
+  </head>
+  <body>
+    <% if(username) { %>
+      <%- include('../views/partials/navbar-private.ejs') %>
+    <% } else { %>
+      <%- include('../views/partials/navbar-public.ejs') %>
+    <% } %>
+    <div class="jumbotron">
+      <div class="container">
+        <h1>About Login Demo</h1>
+      </div>
+    </div>
+    <div class="container">
+      <p>This is one of the first Node.js projects I ever made back in 2016. I used this project to learn about how to make accounts, login users, manage sessions, reset a user's password, and work with a MongoDB database. Even though this app doesn't really do anything besides let you log in and show user information, it was an important first step in building more complicated sites and apps in the future. The code for this project is available on <a href="https://github.com/njscholfield/login-demo" target="_blank" rel="noopener">GitHub</a> if you are interested.</p>
+      <p>If you would like to see some of my more recent projects, check out my <a href="https://noahscholfield.com/projects" target="_blank">projects page</a>.</p>
+      <br>
+      <h4 class="text-primary">&ndash; Noah</h4>
+    </div>
+    <%- include('../views/partials/scripts.ejs') %>
+  </body>
+</html>
